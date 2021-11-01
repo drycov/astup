@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "270987193482",
+    "project_id": "astup-eaec5",
+    "storage_bucket": "astup-eaec5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270987193482:android:64226b917259d03c9cd173",
+        "android_client_info": {
+          "package_name": "quest.citsi.dev.astup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270987193482-k0dte56g476vhbdk0vfkglqrlt1f4ai8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABxYJLt2Q4DrgxKrIB69wgNp188kox2So"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270987193482-k0dte56g476vhbdk0vfkglqrlt1f4ai8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

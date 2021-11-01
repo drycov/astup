@@ -1,0 +1,57 @@
+{
+  "yes" : {
+    "en" : "yes",
+    "ru" : "да",
+    "kz" : "иә"
+  },
+  "no" : {
+    "en" : "no",
+    "ru" : "нет",
+    "kz" : "жоқ"
+  },
+  "change" : {
+    "en" : "change",
+    "ru" : "изменть",
+    "kz" : "өзгерту"
+  },
+  "welcome" : {
+    "en" : "Welcome",
+    "ru" : "Добро пожаловать",
+    "kz" : "қош келдіңіз"
+  },
+  "loading" : {
+    "en" : "Loading",
+    "ru" : "Загрузка",
+    "kz" : "Жүктелуде"
+  },
+  "login" : {
+    "en" : "Login",
+    "ru" : "Войти",
+    "kz" : "Кіру"
+  },
+  "logout" : {
+    "en" : "Logout",
+    "ru" : "Выйти",
+    "kz" : "Шығу"
+  },
+  "test" : {
+    "en" : "test",
+    "ru" : "тест",
+    "kz" : "сынақ"
+  },
+  "click to next picture" : {
+    "en" : "click to next picture",
+    "ru" : "нажмите на следующую картинку",
+    "kz" : "келесі суретті басыңыз"
+  },
+  "go to Lead" : {
+    "en" : "go to Lead",
+    "ru" : "перейти к руководству",
+    "kz" : "нұсқаулыққа өтіңіз"
+  },
+  "notify previous page to switch language" : {
+    "en" : "notify previous page to switch language",
+    "ru" : "уведомить предыдущую страницу о переключении языка",
+    "kz" : "тілді ауыстыру үшін алдыңғы бетке хабарлаңыз"
+  }
+}
