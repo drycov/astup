@@ -10,6 +10,7 @@ import 'package:quick_actions/quick_actions.dart';
 import 'ui.dart';
 
 const double fbuttonSize = 32;
+const double fbuttonRadius = 32;
 
 class HomeUI extends StatefulWidget {
   const HomeUI({Key? key}) : super(key: key);
@@ -74,10 +75,11 @@ class _HomeUIState extends State<HomeUI> {
                     children: <Widget>[
                       UserAccountsDrawerHeader(
                         arrowColor: AppThemes.white,
+                        margin: EdgeInsets.only(bottom: 0),
                         decoration:
                             const BoxDecoration(color: AppThemes.shamrockGreen),
                         currentAccountPicture:
-                            Avatar(controller.firestoreUser.value!),
+                            Avatar(user: controller.firestoreUser.value!),
                         accountName: Text(controller.firestoreUser.value!.name),
                         accountEmail:
                             Text(controller.firestoreUser.value!.email),
@@ -117,8 +119,8 @@ class _HomeUIState extends State<HomeUI> {
                 body: SafeArea(
                   child: Center(
                     child: Column(
-                      children: <Widget>[
-                        const SizedBox(height: 120),
+                      children: const <Widget>[
+                        SizedBox(height: 120),
                         // Text(
                         //     'Connection Status: ${SplashUI..toString()}'),
                       ],
@@ -152,10 +154,14 @@ class _HomeUIState extends State<HomeUI> {
                     animationCurve: Curves.easeInOutCirc,
                     children: <Widget>[
                       RawMaterialButton(
-                        child: const Icon(
-                          Icons.qr_code_scanner_outlined,
-                          color: AppThemes.shamrockGreen,
-                          size: fbuttonSize,
+                        child: const CircleAvatar(
+                          backgroundColor: AppThemes.shamrockGreen,
+                          radius: fbuttonRadius,
+                          child: Icon(
+                            Icons.qr_code_scanner_outlined,
+                            color: AppThemes.whiteLilac,
+                            size: fbuttonSize,
+                          ),
                         ),
                         onPressed: () {
                           Get.to(UIQRView());
@@ -165,10 +171,14 @@ class _HomeUIState extends State<HomeUI> {
                         padding: const EdgeInsets.all(24.0),
                       ),
                       RawMaterialButton(
-                        child: const Icon(
-                          Icons.history_outlined,
-                          color: AppThemes.shamrockGreen,
-                          size: fbuttonSize,
+                        child: const CircleAvatar(
+                          backgroundColor: AppThemes.shamrockGreen,
+                          radius: fbuttonRadius,
+                          child: Icon(
+                            Icons.history_outlined,
+                            color: AppThemes.whiteLilac,
+                            size: fbuttonSize,
+                          ),
                         ),
                         onPressed: () {
                           // Get.to(UIQRView());
@@ -178,10 +188,14 @@ class _HomeUIState extends State<HomeUI> {
                         padding: const EdgeInsets.all(24.0),
                       ),
                       RawMaterialButton(
-                        child: const Icon(
-                          Icons.panorama_fish_eye_outlined,
-                          color: AppThemes.shamrockGreen,
-                          size: fbuttonSize,
+                        child: const CircleAvatar(
+                          backgroundColor: AppThemes.shamrockGreen,
+                          radius: fbuttonRadius,
+                          child: Icon(
+                            Icons.panorama_fish_eye_outlined,
+                            color: AppThemes.whiteLilac,
+                            size: fbuttonSize,
+                          ),
                         ),
                         onPressed: () {
                           // Get.to(UIQRView());
@@ -191,10 +205,14 @@ class _HomeUIState extends State<HomeUI> {
                         padding: const EdgeInsets.all(24.0),
                       ),
                       RawMaterialButton(
-                        child: const Icon(
-                          Icons.message,
-                          color: AppThemes.shamrockGreen,
-                          size: fbuttonSize,
+                        child: const CircleAvatar(
+                          backgroundColor: AppThemes.shamrockGreen,
+                          radius: fbuttonRadius,
+                          child: Icon(
+                            Icons.message,
+                            color: AppThemes.whiteLilac,
+                            size: fbuttonSize,
+                          ),
                         ),
                         onPressed: () {
                           NotificationApi.showNotification(

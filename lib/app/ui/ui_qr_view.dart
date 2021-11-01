@@ -1,11 +1,14 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:astup/app/utils/app_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class UIQRView extends StatefulWidget {
+  const UIQRView({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _QRViewState();
 }
@@ -47,6 +50,7 @@ class _QRViewState extends State<UIQRView> {
         child: Text(
           barcode != null ? 'Result : ${barcode!.code}' : 'Scan a code',
           maxLines: 3,
+          style: const TextStyle(color: AppThemes.whiteLilac),
         ),
       );
 
@@ -72,7 +76,7 @@ class _QRViewState extends State<UIQRView> {
                       snapshot.data!
                           ? Icons.flash_on_outlined
                           : Icons.flash_off_outlined,
-                      color: Theme.of(context).indicatorColor,
+                      color: AppThemes.whiteLilac,
                     );
                   } else {
                     return Container();
@@ -84,18 +88,18 @@ class _QRViewState extends State<UIQRView> {
                 Get.back();
                 setState(() {});
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.cancel_outlined,
-                color: Theme.of(context).indicatorColor,
+                color: AppThemes.whiteLilac,
               )),
           IconButton(
               onPressed: () async {
                 await controller?.flipCamera();
                 setState(() {});
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.flip_camera_android_outlined,
-                color: Theme.of(context).cardColor,
+                color: AppThemes.whiteLilac,
               )),
         ],
       ));
