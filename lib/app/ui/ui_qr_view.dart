@@ -25,6 +25,7 @@ class _QRViewState extends State<UIQRView> {
     }
     controller!.resumeCamera();
   }
+
   @override
   Widget build(BuildContext context) => SafeArea(
         child: Scaffold(
@@ -71,14 +72,13 @@ class _QRViewState extends State<UIQRView> {
                       snapshot.data!
                           ? Icons.flash_on_outlined
                           : Icons.flash_off_outlined,
-                      color: Theme.of(context).cardColor,
+                      color: Theme.of(context).indicatorColor,
                     );
                   } else {
                     return Container();
                   }
                 },
-              )
-              ),
+              )),
           IconButton(
               onPressed: () async {
                 Get.back();
@@ -86,7 +86,7 @@ class _QRViewState extends State<UIQRView> {
               },
               icon: Icon(
                 Icons.cancel_outlined,
-                color: Theme.of(context).cardColor,
+                color: Theme.of(context).indicatorColor,
               )),
           IconButton(
               onPressed: () async {

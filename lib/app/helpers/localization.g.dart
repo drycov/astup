@@ -4,6 +4,7 @@ class Localization extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en': {
+          'functions.QRscanner' :'QR Scanner',
           'auth.signInButton': 'Sign In',
           'auth.signUpButton': 'Sign Up',
           'auth.resetPasswordButton': 'Send Password Reset',
@@ -63,6 +64,7 @@ class Localization extends Translations {
               'Please enter a number i.e. 250 - no dollar symbol and no cents',
         },
         'kz': {
+          'functions.QRscanner' :'QR Scanner',
           'auth.signInButton': 'Кіру',
           'auth.signUpButton': 'Тіркелу',
           'auth.resetPasswordButton': 'Құпия сөзді қалпына келтіруді жіберу',
@@ -125,10 +127,11 @@ class Localization extends Translations {
               '250 нөмірін енгізіңіз, яғни. доллар белгісі жоқ және цент емес ',
         },
         'ru': {
+          'functions.QRscanner' :'QR Scanner',
           'auth.signInButton': 'Войти',
           'auth.signUpButton': 'Зарегистрироваться',
           'auth.resetPasswordButton': 'Отправить Сброс пароля',
-          'auth.emailFormField': 'Электронное письмо',
+          'auth.emailFormField': 'Электронная почта',
           'auth.passwordFormField': 'Пароль',
           'auth.nameFormField': 'Имя',
           'auth.signInErrorTitle': 'Ошибка входа',
@@ -139,14 +142,14 @@ class Localization extends Translations {
           'auth.signUpErrorTitle': 'Регистрация прошла неудачно.',
           'auth.signUpError':
               'Была проблема подписания. Пожалуйста, повторите попытку позже.',
-          'auth.signInLabelButton': 'Иметь аккаунт? Войти.',
-          'auth.resetPasswordNoticeTitle': 'Сброс пароля Email Sent',
+          'auth.signInLabelButton': 'Есть аккаунт? Войдите.',
+          'auth.resetPasswordNoticeTitle': 'Сброс пароля Email! Отправлено!',
           'auth.resetPasswordNotice':
               'Проверьте электронную почту и следуйте инструкциям, чтобы сбросить пароль.',
-          'auth.resetPasswordFailed': 'Сброс пароля Email Failed',
+          'auth.resetPasswordFailed': 'Сброс пароля Email! Ошибка!',
           'auth.signInonResetPasswordLabelButton': 'Войти',
           'auth.updateUser': 'Обновить профиль',
-          'auth.updateUserSuccessNoticeTitle': 'Пользователь Обновлено',
+          'auth.updateUserSuccessNoticeTitle': 'Профиль обновлен',
           'auth.updateUserSuccessNotice':
               'Информация о пользователе успешно обновлена.',
           'auth.updateUserEmailInUse':
@@ -173,7 +176,7 @@ class Localization extends Translations {
           'home.nameLabel': 'Имя',
           'home.uidLabel': 'UID',
           'home.emailLabel': 'Электронное письмо',
-          'home.adminUserLabel': 'Пользователь Admin',
+          'home.adminUserLabel': 'Привелегии Admin',
           'app.title': 'Проект флаттер Starter',
           'validator.email':
               'Пожалуйста, введите действительный адрес электронной почты.',
