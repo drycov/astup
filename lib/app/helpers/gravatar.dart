@@ -23,7 +23,7 @@ class Gravatar {
   final String email;
   final String hash;
 
-  Gravatar(this.email) : this.hash = _generateHash(email);
+  Gravatar(this.email) : hash = _generateHash(email);
 
   static String _generateHash(String email) {
     String preparedEmail = email.trim().toLowerCase();
@@ -59,6 +59,7 @@ class Gravatar {
     return Uri.https('www.gravatar.com', '/$hash.qr').toString();
   }
 
+  @override
   String toString() {
     return imageUrl();
   }

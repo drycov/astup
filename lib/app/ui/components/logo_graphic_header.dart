@@ -2,7 +2,7 @@ import 'package:astup/app/controllers/controllers.dart';
 import 'package:flutter/material.dart';
 
 class LogoGraphicHeader extends StatelessWidget {
-  LogoGraphicHeader();
+  LogoGraphicHeader({Key? key}) : super(key: key);
   final ThemeController themeController = ThemeController.to;
 
   @override

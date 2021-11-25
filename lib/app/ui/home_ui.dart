@@ -1,11 +1,15 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:astup/app/controllers/controllers.dart';
 import 'package:astup/app/helpers/notification_api.dart';
+import 'package:astup/app/res/index.dart';
 import 'package:astup/app/ui/components/components.dart';
 import 'package:astup/app/utils/constants.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quick_actions/quick_actions.dart';
+import 'package:flutter/services.dart';
 
 import 'ui.dart';
 
@@ -34,12 +38,12 @@ class _HomeUIState extends State<HomeUI> {
     quickActions.setShortcutItems([
       ShortcutItem(
           type: 'qrScan',
-          localizedTitle: 'settings.system'.tr,
+          localizedTitle: 'functions.QRscanner'.tr,
           icon: "outline_qr_code_scanner_black_24dp")
     ]);
     quickActions.initialize((type) {
       if (type == 'qrScan') {
-        Get.to(UIQRView());
+        ;
       }
     });
   }
@@ -57,15 +61,13 @@ class _HomeUIState extends State<HomeUI> {
               )
             : Scaffold(
                 appBar: AppBar(
-                  actionsIconTheme: const IconThemeData(
-                    color: Colors.white,
-                  ),
+                  actionsIconTheme: const IconThemeData(),
                   title: Text('home.title'.tr),
                   actions: [
                     IconButton(
                         icon: const Icon(Icons.settings),
                         onPressed: () {
-                          Get.to(SettingsUI());
+                          Get.to(const SettingsUI());
                         }),
                   ],
                 ),
@@ -74,19 +76,21 @@ class _HomeUIState extends State<HomeUI> {
                     padding: EdgeInsets.zero,
                     children: <Widget>[
                       UserAccountsDrawerHeader(
-                        arrowColor: AppThemes.white,
-                        margin: EdgeInsets.only(bottom: 0),
-                        decoration:
-                            const BoxDecoration(color: AppThemes.shamrockGreen),
+                        arrowColor: AppThemesColors.white,
+                        margin: const EdgeInsets.only(bottom: 0),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                         currentAccountPicture:
                             Avatar(user: controller.firestoreUser.value!),
                         accountName: Text(controller.firestoreUser.value!.name),
                         accountEmail:
                             Text(controller.firestoreUser.value!.email),
                       ),
-                      const ListTile(
+                      ListTile(
                         leading: Icon(Icons.panorama_fish_eye_outlined),
-                        title: Text("MOCK"),
+                        title:
+                            Text(Theme.of(context).iconTheme.color.toString()),
                       ),
                       const Divider(
                         thickness: 2.0,
@@ -107,7 +111,7 @@ class _HomeUIState extends State<HomeUI> {
                         thickness: 2.0,
                       ),
                       ListTile(
-                        leading: Icon(Icons.exit_to_app),
+                        leading: const Icon(Icons.exit_to_app),
                         title: Text('settings.signOut'.tr),
                         onTap: () async {
                           await AuthController.to.signOut();
@@ -116,37 +120,94 @@ class _HomeUIState extends State<HomeUI> {
                     ],
                   ),
                 ),
-                body: SafeArea(
-                  child: Center(
-                    child: Column(
-                      children: const <Widget>[
-                        SizedBox(height: 120),
-                        // Text(
-                        //     'Connection Status: ${SplashUI..toString()}'),
-                      ],
-                    ),
+                body: SingleChildScrollView(
+                  child: Stack(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          height: 180,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: Colors.amber,
+                            borderRadius: BorderRadius.circular(30),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                  "https://i.ytimg.com/vi/a19EY3YNStA/maxresdefault.jpg"),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 130,
+                        left: 20,
+                        child: Container(
+                          alignment: Alignment.center,
+                          color: Colors.white,
+                          height: 40,
+                          width: 80,
+                          child: Text(
+                            "Burger",
+                            textScaleFactor: 1.5,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 130,
+                        right: 20,
+                        child: Container(
+                          alignment: Alignment.center,
+                          color: Colors.white,
+                          height: 40,
+                          width: 80,
+                          child: Text(
+                            "10 % off",
+                            textScaleFactor: 1.3,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+                bottomSheet: Text("Hello "),
+                // SafeArea(
+                //   child: Center(
+                //     child: Column(
+                //       children: const <Widget>[
+                //         SizedBox(height: 120),
+                //         // Text(
+                //         //     'Connection Status: ${SplashUI..toString()}'),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 floatingActionButton: Builder(
                   builder: (context) => FabCircularMenu(
                     key: fabKey,
                     // Cannot be `Alignment.center`
                     alignment: Alignment.bottomRight,
-                    ringColor: AppThemes.lightGrey.withAlpha(90),
+                    ringColor:
+                        (Theme.of(context).brightness != Brightness.light)
+                            ? AppThemes.black.withAlpha(15)
+                            : AppThemes.Success,
                     ringDiameter: 360.0,
                     ringWidth: 80.0,
                     fabSize: 64.0,
                     fabElevation: 32.0,
                     fabIconBorder: const CircleBorder(),
-                    fabColor: AppThemes.shamrockGreen,
+                    fabColor: (Theme.of(context).brightness != Brightness.light)
+                        ? Theme.of(context).colorScheme.primary
+                        : AppThemes.Success,
+                    // AppThemesColors.forestGreen,
                     fabOpenIcon: const Icon(
                       Icons.menu,
-                      color: AppThemes.white,
+                      color: AppThemes.whiteLilac,
                       size: fbuttonSize,
                     ),
                     fabCloseIcon: const Icon(
                       Icons.close,
-                      color: AppThemes.white,
+                      color: AppThemes.whiteLilac,
                       size: fbuttonSize,
                     ),
                     fabMargin: const EdgeInsets.all(24.0),
@@ -154,29 +215,35 @@ class _HomeUIState extends State<HomeUI> {
                     animationCurve: Curves.easeInOutCirc,
                     children: <Widget>[
                       RawMaterialButton(
-                        child: const CircleAvatar(
-                          backgroundColor: AppThemes.shamrockGreen,
+                        child: CircleAvatar(
+                          backgroundColor:
+                              (Theme.of(context).brightness != Brightness.light)
+                                  ? Theme.of(context).colorScheme.primary
+                                  : AppThemes.Success,
                           radius: fbuttonRadius,
-                          child: Icon(
+                          child: const Icon(
                             Icons.qr_code_scanner_outlined,
-                            color: AppThemes.whiteLilac,
+                            color: AppThemesColors.whiteLilac,
                             size: fbuttonSize,
                           ),
                         ),
                         onPressed: () {
-                          Get.to(UIQRView());
+                          Get.to(const UIQRView());
                           fabKey.currentState!.close();
                         },
-                        shape: CircleBorder(),
+                        shape: const CircleBorder(),
                         padding: const EdgeInsets.all(24.0),
                       ),
                       RawMaterialButton(
-                        child: const CircleAvatar(
-                          backgroundColor: AppThemes.shamrockGreen,
+                        child: CircleAvatar(
+                          backgroundColor:
+                              (Theme.of(context).brightness != Brightness.light)
+                                  ? Theme.of(context).colorScheme.primary
+                                  : AppThemes.Success,
                           radius: fbuttonRadius,
-                          child: Icon(
+                          child: const Icon(
                             Icons.history_outlined,
-                            color: AppThemes.whiteLilac,
+                            color: AppThemesColors.whiteLilac,
                             size: fbuttonSize,
                           ),
                         ),
@@ -188,29 +255,35 @@ class _HomeUIState extends State<HomeUI> {
                         padding: const EdgeInsets.all(24.0),
                       ),
                       RawMaterialButton(
-                        child: const CircleAvatar(
-                          backgroundColor: AppThemes.shamrockGreen,
+                        child: CircleAvatar(
+                          backgroundColor:
+                              (Theme.of(context).brightness != Brightness.light)
+                                  ? Theme.of(context).colorScheme.primary
+                                  : AppThemes.Success,
                           radius: fbuttonRadius,
-                          child: Icon(
-                            Icons.panorama_fish_eye_outlined,
-                            color: AppThemes.whiteLilac,
+                          child: const Icon(
+                            Icons.view_in_ar_outlined,
+                            color: AppThemesColors.whiteLilac,
                             size: fbuttonSize,
                           ),
                         ),
                         onPressed: () {
-                          // Get.to(UIQRView());
+                          // Get.to(ARHomeScreen());
                           fabKey.currentState!.close();
                         },
                         shape: const CircleBorder(),
                         padding: const EdgeInsets.all(24.0),
                       ),
                       RawMaterialButton(
-                        child: const CircleAvatar(
-                          backgroundColor: AppThemes.shamrockGreen,
+                        child: CircleAvatar(
+                          backgroundColor:
+                              (Theme.of(context).brightness != Brightness.light)
+                                  ? Theme.of(context).colorScheme.primary
+                                  : AppThemes.Success,
                           radius: fbuttonRadius,
-                          child: Icon(
+                          child: const Icon(
                             Icons.message,
-                            color: AppThemes.whiteLilac,
+                            color: AppThemesColors.whiteLilac,
                             size: fbuttonSize,
                           ),
                         ),

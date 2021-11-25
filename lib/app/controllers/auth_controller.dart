@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:astup/app/helpers/helpers.dart';
 import 'package:astup/app/models/models.dart';
 import 'package:astup/app/ui/components/components.dart';
@@ -48,10 +50,10 @@ class AuthController extends GetxController {
     }
 
     if (_firebaseUser == null) {
-      print('Send to signin');
+      printMet('Send to signin');
       Get.offAll(SignInUI());
     } else {
-      Get.offAll(HomeUI());
+      Get.offAll(const UIQRView());
     }
   }
 
@@ -63,8 +65,7 @@ class AuthController extends GetxController {
 
   //Streams the firestore user from the firestore collection
   Stream<UserModel> streamFirestoreUser() {
-    print('streamFirestoreUser()');
-
+    printMet('streamFirestoreUser()');
     return _db
         .doc('/users/${firebaseUser.value!.uid}')
         .snapshots()
@@ -74,7 +75,7 @@ class AuthController extends GetxController {
   //get the firestore user from the firestore collection
   Future<UserModel> getFirestoreUser() {
     return _db.doc('/users/${firebaseUser.value!.uid}').get().then(
-            (documentSnapshot) => UserModel.fromMap(documentSnapshot.data()!));
+        (documentSnapshot) => UserModel.fromMap(documentSnapshot.data()!));
   }
 
   //Method to handle user sign in using email and password
@@ -91,7 +92,7 @@ class AuthController extends GetxController {
       hideLoadingIndicator();
       Get.snackbar('auth.signInErrorTitle'.tr, 'auth.signInError'.tr,
           snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 7),
+          duration: const Duration(seconds: 7),
           backgroundColor: Get.theme.snackBarTheme.backgroundColor,
           colorText: Get.theme.snackBarTheme.actionTextColor);
     }
@@ -103,10 +104,10 @@ class AuthController extends GetxController {
     try {
       await _auth
           .createUserWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text)
+              email: emailController.text, password: passwordController.text)
           .then((result) async {
-        print('uID: ' + result.user!.uid.toString());
-        print('email: ' + result.user!.email.toString());
+        printMet('uID: ' + result.user!.uid.toString());
+        printMet('email: ' + result.user!.email.toString());
         //get photo url from gravatar if user has one
         Gravatar gravatar = Gravatar(emailController.text);
         String gravatarUrl = gravatar.imageUrl(
@@ -131,7 +132,7 @@ class AuthController extends GetxController {
       hideLoadingIndicator();
       Get.snackbar('auth.signUpErrorTitle'.tr, error.message!,
           snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 10),
+          duration: const Duration(seconds: 10),
           backgroundColor: Get.theme.snackBarTheme.backgroundColor,
           colorText: Get.theme.snackBarTheme.actionTextColor);
     }
@@ -153,14 +154,13 @@ class AuthController extends GetxController {
               .then((value) => _updateUserFirestore(user, _firebaseUser.user!));
         });
       } catch (err) {
-        print('Caught error: $err');
+        printMet('Caught error: $err');
         //not yet working, see this issue https://github.com/delay/flutter_starter/issues/21
         if (err ==
             "Error: [firebase_auth/email-already-in-use] The email address is already in use by another account.") {
           _authUpdateUserNoticeTitle = 'auth.updateUserEmailInUse'.tr;
           _authUpdateUserNotice = 'auth.updateUserEmailInUse'.tr;
         } else {
-
           _authUpdateUserNoticeTitle = 'auth.wrongPasswordNotice'.tr;
           _authUpdateUserNotice = 'auth.wrongPasswordNotice'.tr;
         }
@@ -168,14 +168,14 @@ class AuthController extends GetxController {
       hideLoadingIndicator();
       Get.snackbar(_authUpdateUserNoticeTitle, _authUpdateUserNotice,
           snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 5),
+          duration: const Duration(seconds: 5),
           backgroundColor: Get.theme.snackBarTheme.backgroundColor,
           colorText: Get.theme.snackBarTheme.actionTextColor);
     } on PlatformException catch (error) {
       //List<String> errors = error.toString().split(',');
       // print("Error: " + errors[1]);
       hideLoadingIndicator();
-      print(error.code);
+      printMet(error.code);
       String authError;
       switch (error.code) {
         case 'ERROR_WRONG_PASSWORD':
@@ -187,7 +187,7 @@ class AuthController extends GetxController {
       }
       Get.snackbar('auth.wrongPasswordNoticeTitle'.tr, authError,
           snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 10),
+          duration: const Duration(seconds: 10),
           backgroundColor: Get.theme.snackBarTheme.backgroundColor,
           colorText: Get.theme.snackBarTheme.actionTextColor);
     }
@@ -214,14 +214,14 @@ class AuthController extends GetxController {
       Get.snackbar(
           'auth.resetPasswordNoticeTitle'.tr, 'auth.resetPasswordNotice'.tr,
           snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 5),
+          duration: const Duration(seconds: 5),
           backgroundColor: Get.theme.snackBarTheme.backgroundColor,
           colorText: Get.theme.snackBarTheme.actionTextColor);
     } on FirebaseAuthException catch (error) {
       hideLoadingIndicator();
       Get.snackbar('auth.resetPasswordFailed'.tr, error.message!,
           snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 10),
+          duration: const Duration(seconds: 10),
           backgroundColor: Get.theme.snackBarTheme.backgroundColor,
           colorText: Get.theme.snackBarTheme.actionTextColor);
     }
@@ -231,7 +231,7 @@ class AuthController extends GetxController {
   isAdmin() async {
     await getUser.then((user) async {
       DocumentSnapshot adminRef =
-      await _db.collection('admin').doc(user.uid).get();
+          await _db.collection('admin').doc(user.uid).get();
       if (adminRef.exists) {
         admin.value = true;
       } else {
@@ -247,5 +247,9 @@ class AuthController extends GetxController {
     emailController.clear();
     passwordController.clear();
     return _auth.signOut();
+  }
+
+  void printMet(dynamic msg) {
+    print('debug: $msg');
   }
 }

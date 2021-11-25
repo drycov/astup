@@ -16,7 +16,8 @@ Future updateLocalizationFile() async {
 
   String _phraseKey = '';
   List<LocalizationModel> _localizations = [];
-  String _localizationFile = """import 'package:get/get.dart';
+  String _localizationFile =
+      """import 'package:get/get.dart';
 
 class Localization extends Translations {
   @override
@@ -41,7 +42,7 @@ class Localization extends Translations {
 
     final fields = await csv
         .transform(utf8.decoder)
-        .transform(CsvToListConverter(
+        .transform(const CsvToListConverter(
           shouldParseNumbers: false,
         ))
         .toList();
@@ -73,12 +74,12 @@ class Localization extends Translations {
           _phraseKey = value;
         } else {
           bool _languageAdded = false;
-          _localizations.forEach((element) {
+          for (var element in _localizations) {
             if (element.language == key) {
               element.phrases.add(PhraseModel(key: _phraseKey, phrase: value));
               _languageAdded = true;
             }
-          });
+          }
           if (_languageAdded == false) {
             _localizations.add(LocalizationModel(
                 language: key,
@@ -88,19 +89,19 @@ class Localization extends Translations {
       });
     }
 
-    _localizations.forEach((_localization) {
+    for (var _localization in _localizations) {
       String _language = _localization.language;
       String _currentLanguageTextCode = "'$_language': {\n";
       _localizationFile = _localizationFile + _currentLanguageTextCode;
-      _localization.phrases.forEach((_phrase) {
+      for (var _phrase in _localization.phrases) {
         String _phraseKey = _phrase.key;
-        String _phrasePhrase = _phrase.phrase.replaceAll(r"'", "\\\'");
+        String _phrasePhrase = _phrase.phrase.replaceAll(r"'", "\\'");
         String _currentPhraseTextCode = "'$_phraseKey': '$_phrasePhrase',\n";
         _localizationFile = _localizationFile + _currentPhraseTextCode;
-      });
+      }
       String _currentLanguageCodeEnding = "},\n";
       _localizationFile = _localizationFile + _currentLanguageCodeEnding;
-    });
+    }
     String _fileEnding = """
         };
       }

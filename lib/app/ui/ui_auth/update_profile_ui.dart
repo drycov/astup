@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_returning_null_for_void
+
 import 'package:astup/app/controllers/controllers.dart';
 import 'package:astup/app/helpers/helpers.dart';
 import 'package:astup/app/models/models.dart';
@@ -12,6 +14,9 @@ class UpdateProfileUI extends StatelessWidget {
   final AuthController authController = AuthController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  UpdateProfileUI({Key? key}) : super(key: key);
+
+  @override
   Widget build(BuildContext context) {
     //print('user.name: ' + user?.value?.name);
     authController.nameController.text =
@@ -31,7 +36,7 @@ class UpdateProfileUI extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   LogoGraphicHeader(),
-                  SizedBox(height: 48.0),
+                  const SizedBox(height: 48.0),
                   FormInputFieldWithIcon(
                     controller: authController.nameController,
                     iconPrefix: Icons.person,
@@ -41,7 +46,7 @@ class UpdateProfileUI extends StatelessWidget {
                     onSaved: (value) =>
                     authController.nameController.text = value!,
                   ),
-                  FormVerticalSpace(),
+                  const FormVerticalSpace(),
                   FormInputFieldWithIcon(
                     controller: authController.emailController,
                     iconPrefix: Icons.email,
@@ -52,7 +57,7 @@ class UpdateProfileUI extends StatelessWidget {
                     onSaved: (value) =>
                     authController.emailController.text = value!,
                   ),
-                  FormVerticalSpace(),
+                  const FormVerticalSpace(),
                   PrimaryButton(
                       labelText: 'auth.updateUser'.tr,
                       onPressed: () async {
@@ -69,7 +74,7 @@ class UpdateProfileUI extends StatelessWidget {
                               authController.firestoreUser.value!.email);
                         }
                       }),
-                  FormVerticalSpace(),
+                  const FormVerticalSpace(),
                   LabelButton(
                     labelText: 'auth.resetPasswordLabelButton'.tr,
                     onPressed: () => Get.to(ResetPasswordUI()),
@@ -101,10 +106,11 @@ class UpdateProfileUI extends StatelessWidget {
           validator: (value) {
             String pattern = r'^.{6,}$';
             RegExp regex = RegExp(pattern);
-            if (!regex.hasMatch(value!))
+            if (!regex.hasMatch(value!)) {
               return 'validator.password'.tr;
-            else
+            } else {
               return null;
+            }
           },
           obscureText: true,
           onChanged: (value) => null,
@@ -113,13 +119,13 @@ class UpdateProfileUI extends StatelessWidget {
         ),
         actions: <Widget>[
           TextButton(
-            child: new Text('auth.cancel'.tr.toUpperCase()),
+            child: Text('auth.cancel'.tr.toUpperCase()),
             onPressed: () {
               Get.back();
             },
           ),
           TextButton(
-            child: new Text('auth.submit'.tr.toUpperCase()),
+            child: Text('auth.submit'.tr.toUpperCase()),
             onPressed: () async {
               Get.back();
               await authController.updateUser(

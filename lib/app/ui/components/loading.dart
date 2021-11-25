@@ -1,3 +1,5 @@
+// ignore_for_file: void_checks
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -60,7 +62,7 @@ Future<void> showLoadingIndicator(
     {bool isModal = true, Color? modalColor}) async {
   try {
     debugPrint('Showing loading overlay');
-    final _child = Center(
+    const _child = Center(
       child: SizedBox(
         child: CircularProgressIndicator(),
         /*(Platform.isAndroid
@@ -84,7 +86,7 @@ Future<void> showLoadingIndicator(
     );
   } catch (err) {
     debugPrint('Exception showing loading overlay\n${err.toString()}');
-    throw err;
+    rethrow;
   }
 }
 
@@ -94,7 +96,7 @@ Future<void> hideLoadingIndicator() async {
     await _hideOverlay();
   } catch (err) {
     debugPrint('Exception hiding loading overlay');
-    throw err;
+    rethrow;
   }
 }
 
@@ -118,7 +120,7 @@ Future<void> _showOverlay({required Widget child}) async {
     _loaderShown = true;
   } catch (err) {
     debugPrint('Exception inserting loading overlay\n${err.toString()}');
-    throw err;
+    rethrow;
   }
 }
 
@@ -128,6 +130,6 @@ Future<void> _hideOverlay() async {
     _loaderShown = false;
   } catch (err) {
     debugPrint('Exception removing loading overlay\n${err.toString()}');
-    throw err;
+    rethrow;
   }
 }

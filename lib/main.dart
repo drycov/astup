@@ -12,43 +12,43 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  await
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
   await GetStorage.init();
   Get.put<AuthController>(AuthController());
   Get.put<ThemeController>(ThemeController());
   Get.put<LanguageController>(LanguageController());
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer =
-  FirebaseAnalyticsObserver(analytics: analytics);
+      FirebaseAnalyticsObserver(analytics: analytics);
+
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     ThemeController.to.getThemeModeFromStore();
     return GetBuilder<LanguageController>(
-      builder: (languageController) =>
-          Loading(
-            child: GetMaterialApp(
-              translations: Localization(),
-              locale: languageController.getLocale,
-              // <- Current locale
-              // navigatorObservers: [observer],
-              debugShowCheckedModeBanner: false,
-              //defaultTransition: Transition.fade,
-              theme: AppThemes.lightTheme,
-              darkTheme: AppThemes.darkTheme,
-              themeMode: ThemeMode.system,
-              initialRoute: "/",
-              getPages: AppRoutes.routes,
-            ),
-          ),
+      builder: (languageController) => Loading(
+        child: GetMaterialApp(
+          translations: Localization(),
+          locale: languageController.getLocale,
+          // <- Current locale
+          // navigatorObservers: [observer],
+          debugShowCheckedModeBanner: false,
+          //defaultTransition: Transition.fade,
+          theme: AppThemes.lightTheme,
+          darkTheme: AppThemes.darkTheme,
+          themeMode: ThemeMode.system,
+          initialRoute: "/",
+          getPages: AppRoutes.routes,
+        ),
+      ),
     );
   }
 }

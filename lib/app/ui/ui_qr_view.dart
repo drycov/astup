@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:astup/app/utils/app_themes.dart';
+import 'package:astup/app/res/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -37,7 +37,8 @@ class _QRViewState extends State<UIQRView> {
             children: <Widget>[
               _buildQrView(context),
               Positioned(bottom: 10, child: buildResult()),
-              Positioned(top: 10, child: buildControlButtons())
+              Positioned(top: 10, left: 16, child: buildControlButtons()),
+              Positioned(top: 10,right: 16, child: buildUserButtons()),
             ],
           ),
         ),
@@ -50,14 +51,15 @@ class _QRViewState extends State<UIQRView> {
         child: Text(
           barcode != null ? 'Result : ${barcode!.code}' : 'Scan a code',
           maxLines: 3,
-          style: const TextStyle(color: AppThemes.whiteLilac),
+          style: const TextStyle(color: AppThemesColors.whiteLilac),
         ),
       );
 
   Widget buildControlButtons() => Container(
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8), color: Colors.white24),
+          borderRadius: BorderRadius.circular(8),
+          color: AppThemesColors.white24),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -76,7 +78,7 @@ class _QRViewState extends State<UIQRView> {
                       snapshot.data!
                           ? Icons.flash_on_outlined
                           : Icons.flash_off_outlined,
-                      color: AppThemes.whiteLilac,
+                      color: AppThemesColors.whiteLilac,
                     );
                   } else {
                     return Container();
@@ -85,21 +87,43 @@ class _QRViewState extends State<UIQRView> {
               )),
           IconButton(
               onPressed: () async {
-                Get.back();
-                setState(() {});
-              },
-              icon: const Icon(
-                Icons.cancel_outlined,
-                color: AppThemes.whiteLilac,
-              )),
-          IconButton(
-              onPressed: () async {
                 await controller?.flipCamera();
                 setState(() {});
               },
               icon: const Icon(
                 Icons.flip_camera_android_outlined,
-                color: AppThemes.whiteLilac,
+                color: AppThemesColors.whiteLilac,
+              )),
+        ],
+      ));
+
+  Widget buildUserButtons() => Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: AppThemesColors.white24),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          IconButton(
+              onPressed: () async {
+                print("Click on profile button");
+                // await controller?.toggleFlash();
+                // setState(() {});
+              },
+              icon: const Icon(
+                Icons.perm_identity_outlined,
+                color: AppThemesColors.whiteLilac,
+              )),
+          IconButton(
+              onPressed: () async {
+                Get.toNamed("/settings");
+              },
+              icon: const Icon(
+                Icons.settings_outlined,
+                color: AppThemesColors.whiteLilac,
               )),
         ],
       ));

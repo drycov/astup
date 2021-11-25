@@ -8,10 +8,10 @@ DropdownPickerWithIcon(
               ),
 */
 class DropdownPickerWithIcon extends StatelessWidget {
-  DropdownPickerWithIcon(
-      {required this.menuOptions,
+   const DropdownPickerWithIcon(
+      {Key? key, required this.menuOptions,
       required this.selectedOption,
-      this.onChanged});
+      this.onChanged}) : super(key: key);
 
   final List<dynamic> menuOptions;
   final String selectedOption;
@@ -27,7 +27,7 @@ class DropdownPickerWithIcon extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Icon(data.icon),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Text(
                         data.value,
                       ),

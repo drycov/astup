@@ -1,30 +1,31 @@
+// ignore_for_file: unused_field, constant_identifier_names, deprecated_member_use
+
+import 'package:astup/app/res/index.dart';
 import 'package:flutter/material.dart';
 
 class AppThemes {
-  AppThemes._();
+  // AppThemes._();
 
-  static const Color dodgerBlue = Color.fromRGBO(29, 161, 242, 1);
+  static const Color pelorous = Color(0xFF17A2B8);
   static const Color shamrockGreen = Color.fromRGBO(0, 158, 96, 1);
   static const Color whiteLilac = Color.fromRGBO(248, 250, 252, 1);
   static const Color blackPearl = Color.fromRGBO(30, 31, 43, 1);
-  static const Color brinkPink = Color.fromRGBO(255, 97, 136, 1);
-  static const Color juneBud = Color.fromRGBO(186, 215, 97, 1);
+  static const Color amaranth = Color(0xFFdc3545);
+  static const Color chateauGreen = Color(0xFF28a745);
   static const Color white = Color.fromRGBO(255, 255, 255, 1);
   static const Color nevada = Color.fromRGBO(105, 109, 119, 1);
   static const Color ebonyClay = Color.fromRGBO(40, 42, 58, 1);
-  static const Color Error = Color.fromRGBO(218,20,20, 1);
-  static const Color Success = Color.fromRGBO(40,125,60, 1);
-  static const Color Warning = Color.fromRGBO(185,80,0, 1);
-  static const Color Information = Color.fromRGBO(46,90,172, 1);
-  static const Color lightGrey = Color.fromRGBO(211,211,211, 1);
-
-
+  static const Color Success = Color.fromRGBO(40, 125, 60, 1);
+  static const Color amber = Color(0xFFFFc107);
+  static const Color Information = Color.fromRGBO(46, 90, 172, 1);
+  static const Color lightGrey = Color.fromRGBO(211, 211, 211, 1);
+  static const Color black = Color(0xFF000000);
 
   static String font1 = "ProductSans";
   static String font2 = "Roboto";
   //constants color range for light theme
   //main color
-  static const Color _lightPrimaryColor = shamrockGreen;
+  static const Color _lightPrimaryColor = AppThemesColors.green;
 
   //Background Colors
   static const Color _lightBackgroundColor = whiteLilac;
@@ -32,8 +33,8 @@ class AppThemes {
   static const Color _lightBackgroundSecondaryColor = white;
   static const Color _lightBackgroundAlertColor = blackPearl;
   static const Color _lightBackgroundActionTextColor = white;
-  static const Color _lightBackgroundErrorColor = brinkPink;
-  static const Color _lightBackgroundSuccessColor = juneBud;
+  static const Color _lightBackgroundErrorColor = amaranth;
+  static const Color _lightBackgroundSuccessColor = chateauGreen;
 
   //Text Colors
   static const Color _lightTextColor = Colors.black;
@@ -49,28 +50,28 @@ class AppThemes {
   //form input colors
   static const Color _lightInputFillColor = _lightBackgroundSecondaryColor;
   static const Color _lightBorderActiveColor = _lightPrimaryColor;
-  static const Color _lightBorderErrorColor = brinkPink;
+  static const Color _lightBorderErrorColor = amaranth;
 
   //constants color range for dark theme
-  static const Color _darkPrimaryColor = shamrockGreen;
+  static const Color _darkPrimaryColor = AppThemesColors.dimmGray;
 
   //Background Colors
-  static const Color _darkBackgroundColor = ebonyClay;
+  static const Color _darkBackgroundColor = AppThemesColors.nobel;
   static const Color _darkBackgroundAppBarColor = _darkPrimaryColor;
   static const Color _darkBackgroundSecondaryColor =
-  Color.fromRGBO(0, 0, 0, .6);
-  static const Color _darkBackgroundAlertColor = Error;
+      Color.fromRGBO(0, 0, 0, .6);
+  static const Color _darkBackgroundAlertColor = amaranth;
   static const Color _darkBackgroundActionTextColor = white;
 
-  static const Color _darkBackgroundErrorColor = Error;
-  static const Color _darkBackgroundSuccessColor = Success;
-  static const Color _darkBackgroundWarningColor = Warning;
-  static const Color _darkBackgroundInformationColor = Information;
+  static const Color _darkBackgroundErrorColor = amaranth;
+  static const Color _darkBackgroundSuccessColor = chateauGreen;
+  static const Color _darkBackgroundWarningColor = amber;
+  static const Color _darkBackgroundInformationColor = pelorous;
 
   //Text Colors
   static const Color _darkTextColor = Colors.white;
   static const Color _darkAlertTextColor = Colors.black;
-  static const Color _darkTextSecondaryColor = Colors.black;
+  static const Color _darkTextSecondaryColor = Colors.white;
 
   //Border Color
   static const Color _darkBorderColor = whiteLilac;
@@ -80,7 +81,7 @@ class AppThemes {
 
   static const Color _darkInputFillColor = _darkBackgroundSecondaryColor;
   static const Color _darkBorderActiveColor = _darkPrimaryColor;
-  static const Color _darkBorderErrorColor = brinkPink;
+  static const Color _darkBorderErrorColor = amaranth;
 
   //text theme for light theme
   static const TextTheme _lightTextTheme = TextTheme(
@@ -96,6 +97,7 @@ class AppThemes {
 
   //the light theme
   static final ThemeData lightTheme = ThemeData(
+    accentColor: _lightPrimaryColor,
     brightness: Brightness.light,
     fontFamily: font1,
     scaffoldBackgroundColor: _lightBackgroundColor,
@@ -104,8 +106,8 @@ class AppThemes {
     ),
     appBarTheme: const AppBarTheme(
       color: _lightBackgroundAppBarColor,
-      iconTheme: IconThemeData(color: _lightTextColor),
-      textTheme: _lightTextTheme,
+      iconTheme: IconThemeData(color: _darkTextColor),
+      textTheme: _darkTextTheme,
     ),
     colorScheme: const ColorScheme.light(
       primary: _lightPrimaryColor,
@@ -118,7 +120,8 @@ class AppThemes {
     iconTheme: const IconThemeData(
       color: _lightIconColor,
     ),
-    popupMenuTheme: const PopupMenuThemeData(color: _lightBackgroundAppBarColor),
+    popupMenuTheme:
+        const PopupMenuThemeData(color: _lightBackgroundAppBarColor),
     textTheme: _lightTextTheme,
     buttonTheme: ButtonThemeData(
         shape: RoundedRectangleBorder(
@@ -155,8 +158,7 @@ class AppThemes {
     ),
   );
 
-
-  static final TextTheme _darkTextTheme = TextTheme(
+  static const TextTheme _darkTextTheme = TextTheme(
     headline1: TextStyle(fontSize: 20.0, color: _darkTextColor),
     bodyText1: TextStyle(fontSize: 16.0, color: _darkTextColor),
     bodyText2: TextStyle(fontSize: 14.0, color: Colors.grey),
@@ -175,28 +177,28 @@ class AppThemes {
 
     fontFamily: font1,
     scaffoldBackgroundColor: _darkBackgroundColor,
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: _darkPrimaryColor,
     ),
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       color: _darkBackgroundAppBarColor,
       iconTheme: IconThemeData(color: _darkTextColor),
       textTheme: _darkTextTheme,
     ),
-    colorScheme: ColorScheme.dark(
+    colorScheme: const ColorScheme.dark(
       primary: _darkPrimaryColor,
       primaryVariant: _darkBackgroundColor,
 
       // secondary: _darkSecondaryColor,
     ),
-    snackBarTheme: SnackBarThemeData(
-        contentTextStyle: TextStyle(color: Colors.white),
+    snackBarTheme: const SnackBarThemeData(
+        contentTextStyle: TextStyle(color: white),
         backgroundColor: _darkBackgroundAlertColor,
         actionTextColor: _darkBackgroundActionTextColor),
-    iconTheme: IconThemeData(
+    iconTheme: const IconThemeData(
       color: _darkIconColor, //_darkIconColor,
     ),
-    popupMenuTheme: PopupMenuThemeData(color: _darkBackgroundAppBarColor),
+    popupMenuTheme: const PopupMenuThemeData(color: _darkBackgroundAppBarColor),
     textTheme: _darkTextTheme,
     buttonTheme: ButtonThemeData(
         shape: RoundedRectangleBorder(
@@ -205,7 +207,7 @@ class AppThemes {
         buttonColor: _darkPrimaryColor,
         textTheme: ButtonTextTheme.primary),
     unselectedWidgetColor: _darkPrimaryColor,
-    inputDecorationTheme: InputDecorationTheme(
+    inputDecorationTheme: const InputDecorationTheme(
       prefixStyle: TextStyle(color: _darkIconColor),
       //labelStyle: TextStyle(color: nevada),
       border: OutlineInputBorder(

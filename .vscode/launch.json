@@ -7,18 +7,11 @@
         {
             "name": "astup",
             "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "astup (profile mode)",
-            "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "astup (debug)",
-            "request": "launch",
-            "type": "dart",
+            "args": [
+                "--no-sound-null-safety"
+            ],
+            // "flutterMode": "profile"
         }
     ]
 }

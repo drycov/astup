@@ -3,12 +3,13 @@ import 'package:astup/app/models/models.dart';
 import 'package:astup/app/ui/components/components.dart';
 import 'package:astup/app/ui/ui_auth/ui_auth.dart';
 import 'package:astup/app/utils/constants.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class SettingsUI extends StatelessWidget {
+  const SettingsUI({Key? key}) : super(key: key);
+
   //final LanguageController languageController = LanguageController.to;
   //final ThemeController themeController = ThemeController.to;
 
@@ -19,6 +20,19 @@ class SettingsUI extends StatelessWidget {
         actionsIconTheme: const IconThemeData(
           color: Colors.white,
         ),
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_outlined),
+            onPressed: () {
+              Get.back();
+            }),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.info_outlined),
+              onPressed: () => {
+                print("Click on settings button")
+              }
+          ),
+        ],
         title: Text('settings.title'.tr),
       ),
       body: _buildLayoutSection(context),
