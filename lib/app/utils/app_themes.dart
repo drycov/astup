@@ -53,7 +53,7 @@ class AppThemes {
   static const Color _lightBorderErrorColor = amaranth;
 
   //constants color range for dark theme
-  static const Color _darkPrimaryColor = AppThemesColors.dimmGray;
+  static const Color _darkPrimaryColor = AppThemesColors.dimGray;
 
   //Background Colors
   static const Color _darkBackgroundColor = AppThemesColors.nobel;

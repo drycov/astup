@@ -27,9 +27,9 @@ class SettingsUI extends StatelessWidget {
             }),
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.info_outlined),
+              icon: const Icon(Icons.info_outlined),
               onPressed: () => {
-                print("Click on settings button")
+                // print("Click on settings button")
               }
           ),
         ],

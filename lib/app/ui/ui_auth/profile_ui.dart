@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProfileUI extends StatefulWidget {
-  ProfileUI({Key? key}) : super(key: key);
+  const ProfileUI({Key? key}) : super(key: key);
 
   @override
   _ProfileUIState createState() => _ProfileUIState();
@@ -48,8 +48,8 @@ class _ProfileUIState extends State<ProfileUI> {
         _dbRef.limitToLast(10).onChildAdded.listen((Event event) {
       // print('Child added: ${event.snapshot.value}');
     }, onError: (Object o) {
-      final DatabaseError error = o as DatabaseError;
-      print('Error: ${error.code} ${error.message}');
+      // final DatabaseError error = o as DatabaseError;
+      // print('Error: ${error.code} ${error.message}');
     });
     getLocation();
   }
@@ -62,7 +62,6 @@ class _ProfileUIState extends State<ProfileUI> {
 
   @override
   Widget build(BuildContext context) {
-    String locId = authController.firestoreUser.value!.cn;
     authController.cnController.text = authController.firestoreUser.value!.cn;
     authController.postController.text =
         authController.firestoreUser.value!.post;
@@ -89,11 +88,11 @@ class _ProfileUIState extends State<ProfileUI> {
             // stream: locations.orderBy(locId).snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Text('Something went wrong');
+            return const Text('Something went wrong');
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
+            return const Text("Loading");
           }
           return _buildLayoutSection(context, snapshot);
         }));
@@ -112,13 +111,30 @@ class _ProfileUIState extends State<ProfileUI> {
           children: [
             Column(
               children: [
-                LogoGraphicHeader(
-                  avatar: authController.firestoreUser.value!.photoUrl,
-                ),
+                const SizedBox(height: 8.0),
+
+                Align(
+                    alignment: Alignment.bottomRight,
+                    child: Container(
+                      // margin: EdgeInsets.all(20),
+                      // padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          border: Border.all(width: 2, color: Theme.of(context).colorScheme.primary,)),
+                      child: CircleAvatar(
+                        radius: 42,
+                        child: LogoGraphicHeader(
+                          avatar: authController.firestoreUser.value!.fileName,
+                        ),
+                      ),
+                    )),
+                // LogoGraphicHeader(
+                //   avatar: authController.firestoreUser.value!.photoUrl,
+                // ),
                 const SizedBox(height: 16.0),
                 Text(
                   authController.firestoreUser.value!.name,
-                  style: TextStyle(color: AppThemes.black, fontSize: 24),
+                  style: const TextStyle(color: AppThemes.black, fontSize: 24),
                 ),
                 const SizedBox(height: 48.0),
               ],
@@ -132,11 +148,11 @@ class _ProfileUIState extends State<ProfileUI> {
           children: [
             Text(
               'auth.emailFormField'.tr,
-              style: TextStyle(color: AppThemes.black, fontSize: 16),
+              style: const TextStyle(color: AppThemes.black, fontSize: 16),
             ),
             Text(
               authController.firestoreUser.value!.email,
-              style: TextStyle(color: AppThemes.black, fontSize: 16),
+              style: const TextStyle(color: AppThemes.black, fontSize: 16),
             ),
           ],
         ),
@@ -147,11 +163,11 @@ class _ProfileUIState extends State<ProfileUI> {
           children: [
             Text(
               'auth.cnFormField'.tr,
-              style: TextStyle(color: AppThemes.black, fontSize: 16),
+              style: const TextStyle(color: AppThemes.black, fontSize: 16),
             ),
             Text(
               locCnName,
-              style: TextStyle(color: AppThemes.black, fontSize: 16),
+              style: const TextStyle(color: AppThemes.black, fontSize: 16),
             ),
           ],
         ),
@@ -162,11 +178,11 @@ class _ProfileUIState extends State<ProfileUI> {
           children: [
             Text(
               'auth.postFormField'.tr,
-              style: TextStyle(color: AppThemes.black, fontSize: 16),
+              style: const TextStyle(color: AppThemes.black, fontSize: 16),
             ),
             Text(
               authController.firestoreUser.value!.post,
-              style: TextStyle(color: AppThemes.black, fontSize: 16),
+              style: const TextStyle(color: AppThemes.black, fontSize: 16),
             ),
           ],
         ),
@@ -176,7 +192,7 @@ class _ProfileUIState extends State<ProfileUI> {
 
   void readData() {
     _dbRef.once().then((DataSnapshot snapshot) {
-      print('Data : ${snapshot.value}');
+      // print('Data : ${snapshot.value}');
     });
   }
 
@@ -189,7 +205,7 @@ class _ProfileUIState extends State<ProfileUI> {
         .once()
         .then((DataSnapshot snap) {
       final String locName = snap.value['name'].toString();
-      print(locName);
+      // print(locName);
       if (locName != '') {
         setState(() {
           locCnName = locName;

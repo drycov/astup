@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:astup/app/res/index.dart';
+import 'package:astup/app/ui/tutorial_ui/index_tutorial.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -23,6 +24,12 @@ class _QRViewState extends State<UIQRView> {
       var data = {"result": '${barcode!.code}'};
       Get.toNamed('/object', parameters: data);
     }
+  }
+
+  void _showOverlay(BuildContext context) {
+    Navigator.push(context, TutorialOverlay());
+    // Get.to(TutorialOverlay());
+    // navigator.push(TutorialOverlay());
   }
 
   // In order to get hot reload to work we need to pause the camera if the platform
@@ -145,14 +152,16 @@ class _QRViewState extends State<UIQRView> {
                 Icons.engineering_outlined,
                 color: AppThemesColors.whiteLilac,
               )),
-          IconButton(
-              onPressed: () async {
-                Get.toNamed("/profile");
-              },
-              icon: const Icon(
-                Icons.perm_identity_outlined,
-                color: AppThemesColors.whiteLilac,
-              )),
+          // IconButton(
+          //     onPressed: () async {
+          //       _showOverlay(context);
+          //       // Get.toNamed("/profile");
+          //     },
+          //     icon: const Icon(
+          //       // Icons.perm_identity_outlined,
+          //       Icons.help_outline_outlined,
+          //       color: AppThemesColors.whiteLilac,
+          //     )),
           IconButton(
               onPressed: () async {
                 Get.toNamed("/settings");

@@ -10,7 +10,8 @@ class UserModel {
   final String middleName;
   final String lastName;
   final String photoUrl;
-  final String devID;
+  final String? fileName;
+  final String? devID;
 
   UserModel(
       {required this.uid,
@@ -21,8 +22,9 @@ class UserModel {
       required this.firstName,
       required this.middleName,
       required this.lastName,
+        this.fileName,
       required this.photoUrl,
-      required this.devID});
+       this.devID});
 
   factory UserModel.fromMap(Map data) {
     return UserModel(
@@ -35,6 +37,7 @@ class UserModel {
       middleName: data['middleName'] ?? '',
       lastName: data['lastName'] ?? '',
       photoUrl: data['photoUrl'] ?? '',
+      fileName: data['fileName'] ?? '',
       devID: data['devID'] ?? '',
     );
   }
@@ -49,6 +52,7 @@ class UserModel {
         "middleName": middleName,
         "lastName": lastName,
         "photoUrl": photoUrl,
+        "fileName": fileName,
         "devID": devID
       };
 
@@ -62,6 +66,7 @@ class UserModel {
         middleName: json['middleName'],
         lastName: json['lastName'],
         photoUrl: json['photoUrl'],
+    fileName: json['fileName'],
         devID: json['devID'],
       );
 
@@ -75,6 +80,7 @@ class UserModel {
     String? middleName,
     String? lastName,
     String? photoUrl,
+    String? fileName,
     String? devID,
   }) =>
       UserModel(
@@ -87,6 +93,7 @@ class UserModel {
         middleName: middleName ?? this.middleName,
         lastName: lastName ?? this.lastName,
         photoUrl: photoUrl ?? this.photoUrl,
+        fileName: fileName ?? this.fileName,
         devID: devID ?? this.devID,
       );
 }

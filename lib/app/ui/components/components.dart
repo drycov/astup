@@ -9,5 +9,5 @@ export 'dropdown_picker_with_icon.dart';
 export 'avatar.dart';
 export 'loading.dart';
 export 'segmented_selector.dart';
-export 'nav_drwer_header.dart';
+// export 'nav_drawer_header.dart';
 export 'circle_button.dart';

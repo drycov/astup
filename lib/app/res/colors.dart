@@ -8,7 +8,7 @@ class AppThemesColors {
   static const Color white24 = Color(0x3DFFFFFF);
   static const Color lightGray = Color(0xffd3d3d3);
   static const Color gray = Color(0xFF9E9E9E);
-  static const Color dimmGray = Color(0xFF696969); //?secondaryColor
+  static const Color dimGray = Color(0xFF696969); //?secondaryColor
   static const Color nobel = Color(0xFF979797); //?secondaryLightColor
   static const Color eclipse = Color(0xff3e3e3e); //?secondaryDarkColor
 

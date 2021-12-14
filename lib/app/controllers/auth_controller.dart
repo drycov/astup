@@ -204,10 +204,10 @@ class AuthController extends GetxController {
   }
 
   //create the firestore user in users collection
-  void _createUserFirestore(UserModel user, User _firebaseUser) {
-    _db.doc('/users/${_firebaseUser.uid}').set(user.toJson());
-    update();
-  }
+  // void _createUserFirestore(UserModel user, User _firebaseUser) {
+  //   _db.doc('/users/${_firebaseUser.uid}').set(user.toJson());
+  //   update();
+  // }
 
   //password reset email
   Future<void> sendPasswordResetEmail(BuildContext context) async {

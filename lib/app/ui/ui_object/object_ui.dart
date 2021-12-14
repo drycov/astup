@@ -40,7 +40,5 @@ class _ObjectUiState extends State<ObjectUi> {
         // ],
         title: Text('object.title'.tr + ' ' + result),
       ),
-      body: Container(
-        child: Text(result),
-      ));
+      body: Text(result));
 }
