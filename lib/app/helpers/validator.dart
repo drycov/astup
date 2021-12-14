@@ -24,7 +24,7 @@ class Validator {
   }
 
   String? name(String? value) {
-    String pattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+    String pattern = r"^[a-zA-Z]+(([',. -][a-zA-Z])?[a-zA-Z]*)*$";
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
       return 'validator.name'.tr;

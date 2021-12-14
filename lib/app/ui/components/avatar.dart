@@ -1,4 +1,4 @@
-import 'package:astup/app/models/models.dart';
+import 'package:astup/app/models/index.dart';
 import 'package:astup/app/ui/components/components.dart';
 import 'package:colorize_text_avatar/colorize_text_avatar.dart';
 import 'package:flutter/material.dart';

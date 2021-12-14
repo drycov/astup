@@ -1,23 +1,27 @@
 // ignore_for_file: avoid_print
 
-import 'package:astup/app/helpers/helpers.dart';
-import 'package:astup/app/models/models.dart';
+import 'dart:async';
+
+import 'package:astup/app/models/index.dart';
 import 'package:astup/app/ui/components/components.dart';
-import 'package:astup/app/ui/ui.dart';
+import 'package:astup/app/ui/index_ui.dart';
 import 'package:astup/app/ui/ui_auth/ui_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 
 class AuthController extends GetxController {
   static AuthController to = Get.find();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController postController = TextEditingController();
+  TextEditingController cnController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController middleNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   Rxn<User> firebaseUser = Rxn<User>();
@@ -99,44 +103,44 @@ class AuthController extends GetxController {
   }
 
   // User registration using email and password
-  registerWithEmailAndPassword(BuildContext context) async {
-    showLoadingIndicator();
-    try {
-      await _auth
-          .createUserWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text)
-          .then((result) async {
-        printMet('uID: ' + result.user!.uid.toString());
-        printMet('email: ' + result.user!.email.toString());
-        //get photo url from gravatar if user has one
-        Gravatar gravatar = Gravatar(emailController.text);
-        String gravatarUrl = gravatar.imageUrl(
-          size: 200,
-          defaultImage: GravatarImage.retro,
-          rating: GravatarRating.pg,
-          fileExtension: true,
-        );
-        //create the new user object
-        UserModel _newUser = UserModel(
-            uid: result.user!.uid,
-            email: result.user!.email!,
-            name: nameController.text,
-            photoUrl: gravatarUrl);
-        //create the user in firestore
-        _createUserFirestore(_newUser, result.user!);
-        emailController.clear();
-        passwordController.clear();
-        hideLoadingIndicator();
-      });
-    } on FirebaseAuthException catch (error) {
-      hideLoadingIndicator();
-      Get.snackbar('auth.signUpErrorTitle'.tr, error.message!,
-          snackPosition: SnackPosition.BOTTOM,
-          duration: const Duration(seconds: 10),
-          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
-          colorText: Get.theme.snackBarTheme.actionTextColor);
-    }
-  }
+  // registerWithEmailAndPassword(BuildContext context) async {
+  //   showLoadingIndicator();
+  //   try {
+  //     await _auth
+  //         .createUserWithEmailAndPassword(
+  //             email: emailController.text, password: passwordController.text)
+  //         .then((result) async {
+  //       printMet('uID: ' + result.user!.uid.toString());
+  //       printMet('email: ' + result.user!.email.toString());
+  //       //get photo url from gravatar if user has one
+  //       Gravatar gravatar = Gravatar(emailController.text);
+  //       String gravatarUrl = gravatar.imageUrl(
+  //         size: 200,
+  //         defaultImage: GravatarImage.retro,
+  //         rating: GravatarRating.pg,
+  //         fileExtension: true,
+  //       );
+  //       //create the new user object
+  //       UserModel _newUser = UserModel(
+  //           uid: result.user!.uid,
+  //           email: result.user!.email!,
+  //           name: nameController.text,
+  //           photoUrl: gravatarUrl, post: '', middleName: );
+  //       //create the user in firestore
+  //       _createUserFirestore(_newUser, result.user!);
+  //       emailController.clear();
+  //       passwordController.clear();
+  //       hideLoadingIndicator();
+  //     });
+  //   } on FirebaseAuthException catch (error) {
+  //     hideLoadingIndicator();
+  //     Get.snackbar('auth.signUpErrorTitle'.tr, error.message!,
+  //         snackPosition: SnackPosition.BOTTOM,
+  //         duration: const Duration(seconds: 10),
+  //         backgroundColor: Get.theme.snackBarTheme.backgroundColor,
+  //         colorText: Get.theme.snackBarTheme.actionTextColor);
+  //   }
+  // }
 
   //handles updating the user when updating profile
   Future<void> updateUser(BuildContext context, UserModel user, String oldEmail,

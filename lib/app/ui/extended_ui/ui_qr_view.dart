@@ -18,6 +18,13 @@ class _QRViewState extends State<UIQRView> {
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
+  void _onPress() {
+    if (barcode != null) {
+      var data = {"result": '${barcode!.code}'};
+      Get.toNamed('/object', parameters: data);
+    }
+  }
+
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
   @override
@@ -36,24 +43,47 @@ class _QRViewState extends State<UIQRView> {
             alignment: Alignment.center,
             children: <Widget>[
               _buildQrView(context),
-              Positioned(bottom: 10, child: buildResult()),
+              Positioned(bottom: 16, child: buildResult()),
               Positioned(top: 10, left: 16, child: buildControlButtons()),
-              Positioned(top: 10,right: 16, child: buildUserButtons()),
+              Positioned(top: 10, right: 16, child: buildUserButtons()),
             ],
           ),
         ),
       );
 
-  Widget buildResult() => Container(
+  Widget buildResult() {
+    if (barcode != null) {
+      return Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8), color: Colors.white24),
+          child: TextButton(
+            onPressed: _onPress,
+            child: Text(
+              '${barcode!.code}',
+              maxLines: 3,
+              style: const TextStyle(color: AppThemesColors.whiteLilac),
+            ),
+          )
+          // Text(
+          //   '${barcode!.code}',
+          //   maxLines: 3,
+          //   style: const TextStyle(color: AppThemesColors.whiteLilac),
+          // ),
+          );
+    } else {
+      return Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8), color: Colors.white24),
-        child: Text(
-          barcode != null ? 'Result : ${barcode!.code}' : 'Scan a code',
+        child: const Text(
+          'Scan a code',
           maxLines: 3,
-          style: const TextStyle(color: AppThemesColors.whiteLilac),
+          style: TextStyle(color: AppThemesColors.whiteLilac),
         ),
       );
+    }
+  }
 
   Widget buildControlButtons() => Container(
       padding: const EdgeInsets.all(5),
@@ -109,9 +139,15 @@ class _QRViewState extends State<UIQRView> {
         children: <Widget>[
           IconButton(
               onPressed: () async {
-                print("Click on profile button");
-                // await controller?.toggleFlash();
-                // setState(() {});
+                Get.toNamed("/home");
+              },
+              icon: const Icon(
+                Icons.engineering_outlined,
+                color: AppThemesColors.whiteLilac,
+              )),
+          IconButton(
+              onPressed: () async {
+                Get.toNamed("/profile");
               },
               icon: const Icon(
                 Icons.perm_identity_outlined,
@@ -142,8 +178,14 @@ class _QRViewState extends State<UIQRView> {
 
   void _onQRViewCreated(QRViewController controller) {
     setState(() => this.controller = controller);
-    controller.scannedDataStream
-        .listen((barcode) => setState(() => this.barcode = barcode));
+    controller.scannedDataStream.listen((barcode) {
+      setState(() {
+        this.barcode = barcode;
+        // openDetail();
+      });
+    });
+    // controller.scannedDataStream
+    //     .listen((barcode) => setState(() => this.barcode = barcode));
   }
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {

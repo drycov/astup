@@ -28,7 +28,7 @@ class ResetPasswordUI extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  LogoGraphicHeader(),
+                  LogoGraphicHeader(avatar: '',),
                   const SizedBox(height: 48.0),
                   FormInputFieldWithIcon(
                     controller: authController.emailController,

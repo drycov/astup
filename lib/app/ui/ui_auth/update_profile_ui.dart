@@ -2,27 +2,45 @@
 
 import 'package:astup/app/controllers/controllers.dart';
 import 'package:astup/app/helpers/helpers.dart';
-import 'package:astup/app/models/models.dart';
+import 'package:astup/app/models/index.dart';
 import 'package:astup/app/ui/components/components.dart';
 import 'package:astup/app/ui/ui_auth/ui_auth.dart';
+import 'package:astup/app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 
 
 class UpdateProfileUI extends StatelessWidget {
   final AuthController authController = AuthController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  // String? deviceId = await PlatformDeviceId.getDeviceId;
+
+  Future<String?> getUid() async {
+    String? deviceId = await PlatformDeviceId.getDeviceId;
+    return deviceId;
+  }
 
   UpdateProfileUI({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String uDevID = getUid().toString();
     //print('user.name: ' + user?.value?.name);
     authController.nameController.text =
         authController.firestoreUser.value!.name;
     authController.emailController.text =
         authController.firestoreUser.value!.email;
+    authController.cnController.text = authController.firestoreUser.value!.cn;
+    authController.postController.text =
+        authController.firestoreUser.value!.post;
+    authController.firstNameController.text =
+        authController.firestoreUser.value!.firstName;
+    authController.middleNameController.text =
+        authController.firestoreUser.value!.middleName;
+    authController.lastNameController.text =
+        authController.firestoreUser.value!.lastName;
     return Scaffold(
       appBar: AppBar(title: Text('auth.updateProfileTitle'.tr)),
       body: Form(
@@ -35,8 +53,11 @@ class UpdateProfileUI extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  LogoGraphicHeader(),
-                  const SizedBox(height: 48.0),
+                  const FormVerticalSpace(),
+                  LogoGraphicHeader(
+                    avatar: authController.firestoreUser.value!.photoUrl,
+                  ),
+                  // const SizedBox(height: 48.0),
                   FormInputFieldWithIcon(
                     controller: authController.nameController,
                     iconPrefix: Icons.person,
@@ -44,9 +65,40 @@ class UpdateProfileUI extends StatelessWidget {
                     validator: Validator().name,
                     onChanged: (value) => null,
                     onSaved: (value) =>
-                    authController.nameController.text = value!,
+                        authController.nameController.text = value!,
                   ),
                   const FormVerticalSpace(),
+                  FormInputFieldWithIcon(
+                    controller: authController.firstNameController,
+                    iconPrefix: Icons.person,
+                    labelText: 'auth.firstNameFormField'.tr,
+                    validator: Validator().name,
+                    onChanged: (value) => null,
+                    onSaved: (value) =>
+                        authController.firstNameController.text = value!,
+                  ),
+                  const FormVerticalSpace(),
+                  FormInputFieldWithIcon(
+                    controller: authController.middleNameController,
+                    iconPrefix: Icons.person,
+                    labelText: 'auth.middleNameFormField'.tr,
+                    validator: Validator().name,
+                    onChanged: (value) => null,
+                    onSaved: (value) =>
+                    authController.middleNameController.text = value!,
+                  ),
+                  const FormVerticalSpace(),
+                  FormInputFieldWithIcon(
+                    controller: authController.lastNameController,
+                    iconPrefix: Icons.person,
+                    labelText: 'auth.lastNameFormField'.tr,
+                    validator: Validator().name,
+                    onChanged: (value) => null,
+                    onSaved: (value) =>
+                        authController.lastNameController.text = value!,
+                  ),
+                  const FormVerticalSpace(),
+
                   FormInputFieldWithIcon(
                     controller: authController.emailController,
                     iconPrefix: Icons.email,
@@ -55,7 +107,27 @@ class UpdateProfileUI extends StatelessWidget {
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) => null,
                     onSaved: (value) =>
-                    authController.emailController.text = value!,
+                        authController.emailController.text = value!,
+                  ),
+                  const FormVerticalSpace(),
+                  FormInputFieldWithIcon(
+                    controller: authController.cnController,
+                    iconPrefix: Icons.person,
+                    labelText: 'auth.cnFormField'.tr,
+                    validator: Validator().name,
+                    onChanged: (value) => null,
+                    onSaved: (value) =>
+                        authController.cnController.text = value!,
+                  ),
+                  const FormVerticalSpace(),
+                  FormInputFieldWithIcon(
+                    controller: authController.postController,
+                    iconPrefix: Icons.person,
+                    labelText: 'auth.postFormField'.tr,
+                    validator: Validator().name,
+                    onChanged: (value) => null,
+                    onSaved: (value) =>
+                        authController.postController.text = value!,
                   ),
                   const FormVerticalSpace(),
                   PrimaryButton(
@@ -66,10 +138,27 @@ class UpdateProfileUI extends StatelessWidget {
                               .invokeMethod('TextInput.hide');
                           UserModel _updatedUser = UserModel(
                               uid: authController.firestoreUser.value!.uid,
-                              name: authController.nameController.text,
+                              name: authController.firstNameController.text +
+                                  ' ' +
+                                  authController.middleNameController.text
+                                      .substring(
+                                          0,
+                                          authController.middleNameController
+                                                  .text.length +
+                                              1) +
+                                  '. ' +
+                                  authController.lastNameController.text,
                               email: authController.emailController.text,
                               photoUrl:
-                              authController.firestoreUser.value!.photoUrl);
+                                  authController.firestoreUser.value!.photoUrl,
+                              post: authController.postController.text,
+                              cn: authController.cnController.text,
+                              middleName:
+                                  authController.middleNameController.text,
+                              lastName: authController.lastNameController.text,
+                              firstName:
+                                  authController.firstNameController.text,
+                              devID:uDevID);
                           _updateUserConfirm(context, _updatedUser,
                               authController.firestoreUser.value!.email);
                         }
