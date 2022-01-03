@@ -9,8 +9,8 @@ import 'package:astup/app/res/index.dart';
 import 'package:astup/app/ui/components/index.dart';
 import 'package:astup/app/ui/index_ui.dart';
 import 'package:astup/app/ui/ui_home/index_home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -23,7 +23,6 @@ class HomeUI extends StatefulWidget {
 }
 
 class _HomeUIState extends State<HomeUI> {
-
   PackageInfo _packageInfo = PackageInfo(
     appName: 'Unknown',
     packageName: 'Unknown',
@@ -33,27 +32,16 @@ class _HomeUIState extends State<HomeUI> {
   );
 
   String shortcut = 'no action set';
-  String locCnName = '';
   int selectedIndex = 0;
   final Widget _sysVlanUI = const VlanUI();
   final Widget _myIpUI = const IPUI();
   final AuthController controller = AuthController.to;
-
-  // final Widget _myProfile = const MyProfile();
-
   final GlobalKey<FabCircularMenuState> fabKey = GlobalKey();
 
   @override
   void initState() {
-    // Demonstrates configuring the database directly
-    final FirebaseDatabase database = FirebaseDatabase();
-    database.reference().child('location').get().then((DataSnapshot? snapshot) {
-      // print(
-      // 'Connected to directly configured database and read ${snapshot!.value}');
-    });
     super.initState();
     NotificationApi.init();
-    getLocation(controller);
     _initPackageInfo();
   }
 
@@ -64,102 +52,226 @@ class _HomeUIState extends State<HomeUI> {
     });
   }
 
-  // Widget _infoTile(String title, String subtitle) {
-  //   return ListTile(
-  //     title: Text(title),
-  //     subtitle: Text(subtitle.isEmpty ? 'Not set' : subtitle),
-  //   );
-  // }
-
   @override
-  Widget build(BuildContext context) => GetBuilder<AuthController>(
-        init: AuthController(),
-        builder: (controller) => controller.firestoreUser.value!.uid == null
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Scaffold(
-                appBar: AppBar(
-                  actionsIconTheme: const IconThemeData(),
-                  title: Text('home.title'.tr),
-                  actions: [
-                    IconButton(
-                        icon: const Icon(Icons.settings),
-                        onPressed: () {
-                          Get.to(const SettingsUI());
-                        }),
-                  ],
-                ),
-                drawer: Drawer(
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    children: <Widget>[
-                      _createHeader(),
-                      // _createDrawerItem(
-                      //   icon: Icons.contacts,
-                      //   text: 'Contacts',
-                      //   onTap: () {},
-                      // ),
-                      _createDrawerItem(
-                        icon: Icons.event,
-                        text: 'Events',
+  Widget build(BuildContext context) => FutureBuilder<DocumentSnapshot>(
+        future: FirebaseFirestore.instance
+            .collection('/locations')
+            .doc(controller.firestoreUser.value!.cn.toString())
+            .get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return const Text("Something went wrong");
+          }
+
+          if (snapshot.hasData && !snapshot.data!.exists) {
+            return const Text("Document does not exist");
+          }
+
+          if (snapshot.connectionState == ConnectionState.done) {
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
+            return GetBuilder<AuthController>(
+              init: AuthController(),
+              builder: (controller) => controller.firestoreUser.value!.uid ==
+                      null
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Scaffold(
+                      appBar: AppBar(
+                        actionsIconTheme: const IconThemeData(),
+                        title: Text('home.title'.tr),
+                        actions: [
+                          IconButton(
+                              icon: const Icon(Icons.qr_code_scanner_outlined),
+                              onPressed: () {
+                                Get.toNamed('/qrview');
+                              }),
+                          IconButton(
+                              icon: const Icon(Icons.settings),
+                              onPressed: () {
+                                Get.to(const SettingsUI());
+                              }),
+                        ],
                       ),
-                      _createDrawerItem(
-                        icon: Icons.note,
-                        text: 'Notes',
+                      drawer: Drawer(
+                        child: ListView(
+                          padding: EdgeInsets.zero,
+                          children: <Widget>[
+                            _createHeader(data),
+                            _createDrawerItem(
+                              icon: Icons.description_outlined,
+                              text: 'Tasks',
+                              onTap: () {},
+                            ),
+                            _createDrawerItem(
+                              icon: Icons.question_answer_outlined,
+                              text: 'Messages',
+                              onTap: () {Get.toNamed('/chat');},
+                            ),
+                            const Divider(),
+                            _createDrawerItem(
+                              icon: Icons.storage_outlined,
+                              text: 'My objects',
+                              onTap: () {},
+                            ),
+                            _createDrawerItem(
+                              icon: Icons.settings_input_component_outlined,
+                              text: 'Fiber revision',
+                              onTap: () {},
+                            ),
+                            const Divider(),
+                            _createDrawerItem(
+                              icon: Icons.pest_control_outlined,
+                              text: 'Report an issue',
+                              onTap: () {Get.toNamed('/report');},
+                            ),
+                            const Divider(),
+                            ListTile(
+                              title: Text(
+                                  'Ver: ${_packageInfo.version} / ${_packageInfo.buildNumber}'),
+                            ),
+                          ],
+                        ),
                       ),
-                      const Divider(),
-                      _createDrawerItem(
-                          icon: Icons.stars,
-                          text: 'Useful Links',),
-                      const Divider(),
-                      _createDrawerItem(
-                          icon: Icons.bug_report,
-                          text: 'Report an issue',),
-                      ListTile(
-                        title: Text('Ver: ${_packageInfo.version} / ${_packageInfo.buildNumber}'),
+                      bottomNavigationBar: BottomNavigationBar(
+                        type: BottomNavigationBarType.fixed,
+                        currentIndex: selectedIndex,
+                        // showUnselectedLabels: false,
+                        selectedItemColor: AppThemesColors.error,
+
+                        selectedIconTheme: const IconThemeData(
+                            // color: AppThemesColors.laPalma,
+                            opacity: 1.0,
+                            size: 32),
+                        unselectedIconTheme: const IconThemeData(
+                            // color: Colors.black45,
+                            opacity: 0.5,
+                            size: 24),
+
+                        items: const [
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.wb_iridescent_outlined),
+                            label: "VLAN",
+                          ),
+                          // BottomNavigationBarItem(
+                          //   icon: Icon(Icons.alt_route_outlined),
+                          //   label: "IP Networks",
+                          //
+                          // ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.history_edu_outlined),
+                            label: "History request",
+                          )
+                        ],
+                        onTap: (int index) {
+                          onTapHandler(index);
+                        },
                       ),
-                    ],
+                      body: getBody(),
+                    ),
+            );
+          }
+          return GetBuilder<AuthController>(
+            init: AuthController(),
+            builder: (controller) => controller.firestoreUser.value!.uid == null
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Scaffold(
+                    appBar: AppBar(
+                      actionsIconTheme: const IconThemeData(),
+                      title: Text('home.title'.tr),
+                      actions: [
+                        IconButton(
+                            icon: const Icon(Icons.qr_code_scanner_outlined),
+                            onPressed: () {
+                              Get.toNamed('/qrview');
+                            }),
+                        IconButton(
+                            icon: const Icon(Icons.settings),
+                            onPressed: () {
+                              Get.to(const SettingsUI());
+                            }),
+                      ],
+                    ),
+                    drawer: Drawer(
+                      child: ListView(
+                        padding: EdgeInsets.zero,
+                        children: <Widget>[
+                          // _createHeader(data),
+                          CircularProgressIndicator(),
+                          // _createDrawerItem(
+                          //   icon: Icons.contacts,
+                          //   text: 'Contacts',
+                          //   onTap: () {},
+                          // ),
+                          _createDrawerItem(
+                            icon: Icons.event,
+                            text: 'Events',
+                          ),
+                          _createDrawerItem(
+                            icon: Icons.note,
+                            text: 'Notes',
+                          ),
+                          const Divider(),
+                          _createDrawerItem(
+                            icon: Icons.stars,
+                            text: 'Useful Links',
+                          ),
+                          const Divider(),
+                          _createDrawerItem(
+                            icon: Icons.bug_report,
+                            text: 'Report an issue',
+                          ),
+                          ListTile(
+                            title: Text(
+                                'Ver: ${_packageInfo.version} / ${_packageInfo.buildNumber}'),
+                          ),
+                        ],
+                      ),
+                    ),
+                    bottomNavigationBar: BottomNavigationBar(
+                      type: BottomNavigationBarType.fixed,
+                      currentIndex: selectedIndex,
+                      // showUnselectedLabels: false,
+                      selectedItemColor: AppThemesColors.error,
+
+                      selectedIconTheme: const IconThemeData(
+                          // color: AppThemesColors.laPalma,
+                          opacity: 1.0,
+                          size: 32),
+                      unselectedIconTheme: const IconThemeData(
+                          // color: Colors.black45,
+                          opacity: 0.5,
+                          size: 24),
+
+                      items: const [
+                        BottomNavigationBarItem(
+                          icon: Icon(Icons.wb_iridescent_outlined),
+                          label: "VLAN",
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Icon(Icons.alt_route_outlined),
+                          label: "IP Networks",
+                        ),
+                        // BottomNavigationBarItem(
+                        //   icon: Icon(Icons.history_edu_outlined),
+                        //   label: "History request",
+                        // )
+                      ],
+                      onTap: (int index) {
+                        onTapHandler(index);
+                      },
+                    ),
+                    body: getBody(),
                   ),
-                ),
-                bottomNavigationBar: BottomNavigationBar(
-                  type: BottomNavigationBarType.fixed,
-                  currentIndex: selectedIndex,
-                  // showUnselectedLabels: false,
-                  selectedItemColor: AppThemesColors.error,
-
-                  selectedIconTheme: const IconThemeData(
-                      // color: AppThemesColors.laPalma,
-                      opacity: 1.0,
-                      size: 32),
-                  unselectedIconTheme: const IconThemeData(
-                      // color: Colors.black45,
-                      opacity: 0.5,
-                      size: 24),
-
-                  items: const [
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.wb_iridescent_outlined),
-                      label: "VLAN",
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.alt_route_outlined),
-                      label: "IP Networks",
-                    ),
-                    // BottomNavigationBarItem(
-                    //   icon: Icon(Icons.history_edu_outlined),
-                    //   label: "History request",
-                    // )
-                  ],
-                  onTap: (int index) {
-                    onTapHandler(index);
-                  },
-                ),
-                body: getBody(),
-              ),
+          );
+        },
       );
 
-  Widget _createHeader() {
+  Widget _createHeader(Map<String, dynamic> data) {
     return DrawerHeader(
         margin: EdgeInsets.zero,
         padding: EdgeInsets.zero,
@@ -175,8 +287,6 @@ class _HomeUIState extends State<HomeUI> {
               child: Align(
                   alignment: Alignment.bottomRight,
                   child: Container(
-                    // margin: EdgeInsets.all(20),
-                    // padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
                         border: Border.all(width: 2, color: Colors.white)),
@@ -190,22 +300,34 @@ class _HomeUIState extends State<HomeUI> {
             left: 16,
           ),
           Positioned(
-            child: Text(controller.firestoreUser.value!.name),
+            child: Text(
+              controller.firestoreUser.value!.name.toString(),
+              style: const TextStyle(color: AppThemesColors.white),
+            ),
             right: 16,
             top: 32,
           ),
           Positioned(
-            child: Text(controller.firestoreUser.value!.email),
+            child: Text(
+              controller.firestoreUser.value!.email.toString(),
+              style: const TextStyle(color: AppThemesColors.white),
+            ),
             right: 16,
             top: 48,
           ),
           Positioned(
-            child: Text(locCnName),
+            child: Text(
+              '${data['on']}',
+              style: const TextStyle(color: AppThemesColors.white),
+            ),
             right: 16,
             top: 64,
           ),
           Positioned(
-            child: Text(controller.firestoreUser.value!.post),
+            child: Text(
+              controller.firestoreUser.value!.post.toString(),
+              style: const TextStyle(color: AppThemesColors.white),
+            ),
             right: 16,
             top: 80,
           ),
@@ -234,35 +356,11 @@ class _HomeUIState extends State<HomeUI> {
     } else {
       return _myIpUI;
     }
-    // else if (selectedIndex == 1) {
-    //   return _myIpUI;
-    // }
-    // else {
-    //   return _myProfile;
-    // }
   }
 
   void onTapHandler(int index) {
     setState(() {
       selectedIndex = index;
-    });
-  }
-
-  Future<String> getLocation(AuthController controller) async {
-    final ref = FirebaseDatabase.instance.reference();
-
-    return ref
-        .child('location')
-        .child(controller.firestoreUser.value!.cn)
-        .once()
-        .then((DataSnapshot snap) {
-      final String locName = snap.value['name'].toString();
-      if (locName != '') {
-        setState(() {
-          locCnName = locName;
-        });
-      }
-      return locName;
     });
   }
 }

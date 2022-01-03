@@ -9,7 +9,10 @@ class VlanUI extends StatefulWidget {
 
 class _VlanUIState extends State<VlanUI> {
   @override
-  Widget build(BuildContext context) =>
-      const Scaffold(
-          body: Center());
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Center(child: CircularProgressIndicator()),
+    );
+  }
 }

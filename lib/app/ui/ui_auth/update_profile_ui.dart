@@ -28,18 +28,18 @@ class UpdateProfileUI extends StatelessWidget {
     String uDevID = getUid().toString();
     //print('user.name: ' + user?.value?.name);
     authController.nameController.text =
-        authController.firestoreUser.value!.name;
+        authController.firestoreUser.value!.name.toString();
     authController.emailController.text =
-        authController.firestoreUser.value!.email;
-    authController.cnController.text = authController.firestoreUser.value!.cn;
+        authController.firestoreUser.value!.email.toString();
+    authController.cnController.text = authController.firestoreUser.value!.cn.toString();
     authController.postController.text =
-        authController.firestoreUser.value!.post;
+        authController.firestoreUser.value!.post.toString();
     authController.firstNameController.text =
-        authController.firestoreUser.value!.firstName;
+        authController.firestoreUser.value!.firstName.toString();
     authController.middleNameController.text =
-        authController.firestoreUser.value!.middleName;
+        authController.firestoreUser.value!.middleName.toString();
     authController.lastNameController.text =
-        authController.firestoreUser.value!.lastName;
+        authController.firestoreUser.value!.lastName.toString();
     return Scaffold(
       appBar: AppBar(title: Text('auth.updateProfileTitle'.tr)),
       body: Form(
@@ -157,9 +157,9 @@ class UpdateProfileUI extends StatelessWidget {
                               lastName: authController.lastNameController.text,
                               firstName:
                                   authController.firstNameController.text,
-                              devID:uDevID);
+                              devID:uDevID, fileName: '');
                           _updateUserConfirm(context, _updatedUser,
-                              authController.firestoreUser.value!.email);
+                              authController.firestoreUser.value!.email.toString());
                         }
                       }),
                   const FormVerticalSpace(),

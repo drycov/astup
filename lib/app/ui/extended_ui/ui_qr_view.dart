@@ -50,7 +50,7 @@ class _QRViewState extends State<UIQRView> {
             alignment: Alignment.center,
             children: <Widget>[
               _buildQrView(context),
-              Positioned(bottom: 16, child: buildResult()),
+              Positioned(bottom: 128, child: buildResult()),
               Positioned(top: 10, left: 16, child: buildControlButtons()),
               Positioned(top: 10, right: 16, child: buildUserButtons()),
             ],
@@ -60,29 +60,37 @@ class _QRViewState extends State<UIQRView> {
 
   Widget buildResult() {
     if (barcode != null) {
-      return Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8), color: Colors.white24),
-          child: TextButton(
-            onPressed: _onPress,
-            child: Text(
-              '${barcode!.code}',
-              maxLines: 3,
-              style: const TextStyle(color: AppThemesColors.whiteLilac),
+      return
+          // padding: const EdgeInsets.all(12),
+          // decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(8), color: Colors.white24),
+          OutlinedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.white24),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
             ),
-          )
-          // Text(
-          //   '${barcode!.code}',
-          //   maxLines: 3,
-          //   style: const TextStyle(color: AppThemesColors.whiteLilac),
-          // ),
-          );
+          ),
+        ),
+        onPressed: _onPress,
+        child: Text(
+          '${barcode!.code}',
+          maxLines: 3,
+          style: const TextStyle(color: AppThemesColors.whiteLilac),
+        ),
+        // )
+        // Text(
+        //   '${barcode!.code}',
+        //   maxLines: 3,
+        //   style: const TextStyle(color: AppThemesColors.whiteLilac),
+        // ),
+      );
     } else {
       return Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8), color: Colors.white24),
+            borderRadius: BorderRadius.circular(18), color: Colors.white24),
         child: const Text(
           'Scan a code',
           maxLines: 3,

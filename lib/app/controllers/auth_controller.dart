@@ -2,10 +2,12 @@
 
 import 'dart:async';
 
+import 'package:astup/app/helpers/helpers.dart';
 import 'package:astup/app/models/index.dart';
 import 'package:astup/app/ui/components/components.dart';
 import 'package:astup/app/ui/index_ui.dart';
 import 'package:astup/app/ui/ui_auth/ui_auth.dart';
+import 'package:astup/app/utils/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +56,7 @@ class AuthController extends GetxController {
     }
 
     if (_firebaseUser == null) {
-      printMet('Send to signin');
+      Globals.printMet('Send to signin');
       Get.offAll(SignInUI());
     } else {
       Get.offAll(const UIQRView());
@@ -69,7 +71,7 @@ class AuthController extends GetxController {
 
   //Streams the firestore user from the firestore collection
   Stream<UserModel> streamFirestoreUser() {
-    printMet('streamFirestoreUser()');
+    Globals.printMet('streamFirestoreUser()');
     return _db
         .doc('/users/${firebaseUser.value!.uid}')
         .snapshots()
@@ -103,46 +105,48 @@ class AuthController extends GetxController {
   }
 
   // User registration using email and password
-  // registerWithEmailAndPassword(BuildContext context) async {
-  //   showLoadingIndicator();
-  //   try {
-  //     await _auth
-  //         .createUserWithEmailAndPassword(
-  //             email: emailController.text, password: passwordController.text)
-  //         .then((result) async {
-  //       printMet('uID: ' + result.user!.uid.toString());
-  //       printMet('email: ' + result.user!.email.toString());
-  //       //get photo url from gravatar if user has one
-  //       Gravatar gravatar = Gravatar(emailController.text);
-  //       String gravatarUrl = gravatar.imageUrl(
-  //         size: 200,
-  //         defaultImage: GravatarImage.retro,
-  //         rating: GravatarRating.pg,
-  //         fileExtension: true,
-  //       );
-  //       //create the new user object
-  //       UserModel _newUser = UserModel(
-  //           uid: result.user!.uid,
-  //           email: result.user!.email!,
-  //           name: nameController.text,
-  //           photoUrl: gravatarUrl, post: '', middleName: );
-  //       //create the user in firestore
-  //       _createUserFirestore(_newUser, result.user!);
-  //       emailController.clear();
-  //       passwordController.clear();
-  //       hideLoadingIndicator();
-  //     });
-  //   } on FirebaseAuthException catch (error) {
-  //     hideLoadingIndicator();
-  //     Get.snackbar('auth.signUpErrorTitle'.tr, error.message!,
-  //         snackPosition: SnackPosition.BOTTOM,
-  //         duration: const Duration(seconds: 10),
-  //         backgroundColor: Get.theme.snackBarTheme.backgroundColor,
-  //         colorText: Get.theme.snackBarTheme.actionTextColor);
-  //   }
-  // }
+  registerWithEmailAndPassword(BuildContext context) async {
+    showLoadingIndicator();
+    try {
+      await _auth
+          .createUserWithEmailAndPassword(
+              email: emailController.text, password: passwordController.text)
+          .then((result) async {
+        Globals.printMet('uID: ' + result.user!.uid.toString());
+        Globals.printMet('email: ' + result.user!.email.toString());
+        //get photo url from gravatar if user has one
+        Gravatar gravatar = Gravatar(emailController.text);
+        String gravatarUrl = gravatar.imageUrl(
+          size: 200,
+          defaultImage: GravatarImage.retro,
+          rating: GravatarRating.pg,
+          fileExtension: true,
+        );
+        //create the new user object
+        UserModel _newUser = UserModel(
+            uid: result.user!.uid,
+            email: result.user!.email!,
+            name: nameController.text,
+            photoUrl: gravatarUrl,
+            post: '',
+            middleName: '', fileName: '', devID: '', lastName: '', firstName: '', cn: '');
+        //create the user in firestore
+        _createUserFirestore(_newUser, result.user!);
+        emailController.clear();
+        passwordController.clear();
+        hideLoadingIndicator();
+      });
+    } on FirebaseAuthException catch (error) {
+      hideLoadingIndicator();
+      Get.snackbar('auth.signUpErrorTitle'.tr, error.message!,
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 10),
+          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
+          colorText: Get.theme.snackBarTheme.actionTextColor);
+    }
+  }
 
-  //handles updating the user when updating profile
+  // handles updating the user when updating profile
   Future<void> updateUser(BuildContext context, UserModel user, String oldEmail,
       String password) async {
     String _authUpdateUserNoticeTitle = 'auth.updateUserSuccessNoticeTitle'.tr;
@@ -154,11 +158,11 @@ class AuthController extends GetxController {
             .signInWithEmailAndPassword(email: oldEmail, password: password)
             .then((_firebaseUser) {
           _firebaseUser.user!
-              .updateEmail(user.email)
+              .updateEmail(user.email.toString())
               .then((value) => _updateUserFirestore(user, _firebaseUser.user!));
         });
       } catch (err) {
-        printMet('Caught error: $err');
+        Globals.printMet('Caught error: $err');
         //not yet working, see this issue https://github.com/delay/flutter_starter/issues/21
         if (err ==
             "Error: [firebase_auth/email-already-in-use] The email address is already in use by another account.") {
@@ -179,7 +183,7 @@ class AuthController extends GetxController {
       //List<String> errors = error.toString().split(',');
       // print("Error: " + errors[1]);
       hideLoadingIndicator();
-      printMet(error.code);
+      Globals.printMet(error.code);
       String authError;
       switch (error.code) {
         case 'ERROR_WRONG_PASSWORD':
@@ -203,11 +207,11 @@ class AuthController extends GetxController {
     update();
   }
 
-  //create the firestore user in users collection
-  // void _createUserFirestore(UserModel user, User _firebaseUser) {
-  //   _db.doc('/users/${_firebaseUser.uid}').set(user.toJson());
-  //   update();
-  // }
+  // create the firestore user in users collection
+  void _createUserFirestore(UserModel user, User _firebaseUser) {
+    _db.doc('/users/${_firebaseUser.uid}').set(user.toJson());
+    update();
+  }
 
   //password reset email
   Future<void> sendPasswordResetEmail(BuildContext context) async {
@@ -251,9 +255,5 @@ class AuthController extends GetxController {
     emailController.clear();
     passwordController.clear();
     return _auth.signOut();
-  }
-
-  void printMet(dynamic msg) {
-    print('debug: $msg');
   }
 }

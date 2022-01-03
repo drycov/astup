@@ -1,6 +1,7 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
 import 'package:flutter/material.dart';
+import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/loading.dart';
 
 class LoadingScreen extends StatelessWidget {
@@ -12,7 +13,7 @@ class LoadingScreen extends StatelessWidget {
       body: Container(
         color: Colors.green,
         child: Center(
-          child: Loading( size: 100.0, color: Colors.white),
+          child: Loading( indicator:BallPulseIndicator(), size: 100.0, color: Colors.white),
         ),
       ),
     );

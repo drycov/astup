@@ -1,30 +1,30 @@
 //User Model
 
 class UserModel {
-  final String uid;
-  final String email;
-  final String name;
-  final String cn;
-  final String post;
-  final String firstName;
-  final String middleName;
-  final String lastName;
-  final String photoUrl;
-  final String? fileName;
-  final String? devID;
+  final String uid,
+      email,
+      name,
+      cn,
+      post,
+      firstName,
+      middleName,
+      lastName,
+      photoUrl,
+      fileName,
+      devID;
 
   UserModel(
-      {required this.uid,
-      required this.email,
-      required this.name,
-      required this.cn,
-      required this.post,
-      required this.firstName,
-      required this.middleName,
-      required this.lastName,
-        this.fileName,
-      required this.photoUrl,
-       this.devID});
+      { required this.uid,
+       required this.email,
+       required this.name,
+       required this.cn,
+       required this.post,
+       required this.firstName,
+       required this.middleName,
+       required this.lastName,
+      required this.fileName,
+       required this.photoUrl,
+      required this.devID});
 
   factory UserModel.fromMap(Map data) {
     return UserModel(
@@ -66,7 +66,7 @@ class UserModel {
         middleName: json['middleName'],
         lastName: json['lastName'],
         photoUrl: json['photoUrl'],
-    fileName: json['fileName'],
+        fileName: json['fileName'],
         devID: json['devID'],
       );
 

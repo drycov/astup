@@ -1,9 +1,11 @@
 import 'package:astup/app/controllers/auth_controller.dart';
 import 'package:astup/app/controllers/controllers.dart';
+import 'package:astup/app/controllers/vlan_controller.dart';
 import 'package:astup/app/helpers/helpers.dart';
 import 'package:astup/app/ui/components/components.dart';
 import 'package:astup/app/utils/app_routes.dart';
 import 'package:astup/app/utils/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,10 +17,18 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await GetStorage.init();
+  await init();
+  FirebaseFirestore.instance.settings = const Settings(
+      persistenceEnabled: false, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
+  runApp(const MyApp());
+}
+
+Future<void> init() async {
   Get.put<AuthController>(AuthController());
   Get.put<ThemeController>(ThemeController());
   Get.put<LanguageController>(LanguageController());
-  runApp(const MyApp());
+  Get.put<LocationController>(LocationController());
+  Get.put<VlanController>(VlanController());
 }
 
 class MyApp extends StatelessWidget {
@@ -37,9 +47,9 @@ class MyApp extends StatelessWidget {
           translations: Localization(),
           locale: languageController.getLocale,
           // <- Current locale
-          // navigatorObservers: [observer],
+          navigatorObservers: [observer],
           debugShowCheckedModeBanner: false,
-          //defaultTransition: Transition.fade,
+          defaultTransition: Transition.fade,
           theme: AppThemes.lightTheme,
           darkTheme: AppThemes.darkTheme,
           themeMode: ThemeMode.system,

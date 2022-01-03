@@ -39,7 +39,7 @@ class Avatar extends StatelessWidget {
           radius: 70.0,
           child: ClipOval(
             child: CachedNetworkImage(
-              imageUrl: user.photoUrl,
+              imageUrl: user.photoUrl.toString(),
               width: 160,
               height: 160,
               placeholder: (context, url) => const CircularProgressIndicator(),

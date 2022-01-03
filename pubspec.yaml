@@ -21,8 +21,8 @@ dependencies:
   loading: ^1.0.2
   get_storage: ^2.0.2
   crypto: ^3.0.1
-  http: ^0.13.1
-  csv: ^5.0.0
+  http: ^0.13.4
+  csv: ^5.0.1
   colorize_text_avatar: ^1.0.2
   flutter_lock_screen: ^2.0.1
   flutter_barcode_scanner: ^2.0.0
@@ -64,7 +64,7 @@ flutter_icons:
   image_path: "assets/icon/astup_icon.png"
   image_path_android: "assets/icon/astup_scan.png"
   image_path_ios: "assets/icon/astup_scan.png"
-  adaptive_icon_background: "#2196F3"
+  adaptive_icon_background: "#03c03c"
   adaptive_icon_foreground: "assets/icon/astup_scan.png"
 
 

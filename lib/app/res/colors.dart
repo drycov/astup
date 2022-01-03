@@ -33,4 +33,12 @@ class AppThemesColors {
   static const Color warning = Color.fromRGBO(185, 80, 0, 1);
   static const Color information = Color.fromRGBO(46, 90, 172, 1);
   static const Color lightGrey = Color.fromRGBO(211, 211, 211, 1);
+
+  /**
+   * From Chat
+   */
+  static const Color BGcolor = Color.fromRGBO(21, 22, 45, 1);
+  static const Color ACcolor = Color.fromRGBO(46, 45, 66, 0.3);
+  static const Color ACcolor2 = Color.fromRGBO(10, 179, 189, 1);
+  static const Color textColor = Color.fromRGBO(235, 235, 231, 1);
 }
