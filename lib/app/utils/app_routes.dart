@@ -1,6 +1,7 @@
 import 'package:astup/app/ui/index_ui.dart';
 import 'package:astup/app/ui/messages/chat_ui.dart';
 import 'package:astup/app/ui/ui_auth/ui_auth.dart';
+import 'package:astup/app/ui/ui_object/index_object.dart';
 import 'package:astup/app/ui/ui_object/object_ui.dart';
 import 'package:get/get.dart';
 
@@ -17,6 +18,7 @@ class AppRoutes {
     GetPage(name: '/qrview', page: () => const UIQRView()),
     GetPage(name: '/object', page: () => const ObjectUi()),
     GetPage(name: '/report', page: () => const ChatScreen()),
+    GetPage(name: '/timeline', page: () => const TimelineUI()),
     // GetPage(name: '/chat', page: () => const ChatsScreen()),
   ];
 }

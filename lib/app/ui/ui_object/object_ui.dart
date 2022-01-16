@@ -1,3 +1,4 @@
+import 'package:astup/app/controllers/controllers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,191 @@ class _ObjectUiState extends State<ObjectUi> {
     result = _result!;
   }
 
+  Widget build(BuildContext context) => FutureBuilder<DocumentSnapshot>(
+        future:
+            FirebaseFirestore.instance.collection('/objects').doc(result).get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return const Text("Something went wrong");
+          }
+
+          if (snapshot.hasData && !snapshot.data!.exists) {
+            return const Text("Document does not exist");
+          }
+
+          if (snapshot.connectionState == ConnectionState.done) {
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
+            return GetBuilder<ObjectController>(
+              init: ObjectController(),
+              builder: (controller) => result == null
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Scaffold(
+                      appBar: AppBar(
+                        actionsIconTheme: const IconThemeData(),
+                        title: Text('home.title'.tr),
+                        actions: [
+                          IconButton(
+                              icon: const Icon(Icons.qr_code_scanner_outlined),
+                              onPressed: () {
+                                Get.toNamed('/qrview');
+                              }),
+                          IconButton(
+                              icon: const Icon(Icons.settings),
+                              onPressed: () {
+                                Get.to(const SettingsUI());
+                              }),
+                        ],
+                      ),
+                      drawer: Drawer(
+                        child: ListView(
+                          padding: EdgeInsets.zero,
+                          children: <Widget>[
+                            _createHeader(data),
+                            _createDrawerItem(
+                              icon: Icons.description_outlined,
+                              text: 'Tasks',
+                              onTap: () {},
+                            ),
+                            _createDrawerItem(
+                              icon: Icons.question_answer_outlined,
+                              text: 'Messages',
+                              onTap: () {
+                                Get.toNamed('/chat');
+                              },
+                            ),
+                            const Divider(),
+                            _createDrawerItem(
+                              icon: Icons.storage_outlined,
+                              text: 'My objects',
+                              onTap: () {},
+                            ),
+                            _createDrawerItem(
+                              icon: Icons.settings_input_component_outlined,
+                              text: 'Fiber revision',
+                              onTap: () {},
+                            ),
+                            const Divider(),
+                            _createDrawerItem(
+                              icon: Icons.pest_control_outlined,
+                              text: 'Report an issue',
+                              onTap: () {
+                                Get.toNamed('/report');
+                              },
+                            ),
+                            const Divider(),
+                            ListTile(
+                              title: Text(
+                                  'Ver: ${_packageInfo.version} / ${_packageInfo.buildNumber}'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      body: getBody(),
+                    ),
+            );
+          }
+          return GetBuilder<AuthController>(
+            init: AuthController(),
+            builder: (controller) => controller.firestoreUser.value!.uid == null
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Scaffold(
+                    appBar: AppBar(
+                      actionsIconTheme: const IconThemeData(),
+                      title: Text('home.title'.tr),
+                      actions: [
+                        IconButton(
+                            icon: const Icon(Icons.qr_code_scanner_outlined),
+                            onPressed: () {
+                              Get.toNamed('/qrview');
+                            }),
+                        IconButton(
+                            icon: const Icon(Icons.settings),
+                            onPressed: () {
+                              Get.to(const SettingsUI());
+                            }),
+                      ],
+                    ),
+                    drawer: Drawer(
+                      child: ListView(
+                        padding: EdgeInsets.zero,
+                        children: <Widget>[
+                          // _createHeader(data),
+                          CircularProgressIndicator(),
+                          // _createDrawerItem(
+                          //   icon: Icons.contacts,
+                          //   text: 'Contacts',
+                          //   onTap: () {},
+                          // ),
+                          _createDrawerItem(
+                            icon: Icons.event,
+                            text: 'Events',
+                          ),
+                          _createDrawerItem(
+                            icon: Icons.note,
+                            text: 'Notes',
+                          ),
+                          const Divider(),
+                          _createDrawerItem(
+                            icon: Icons.stars,
+                            text: 'Useful Links',
+                          ),
+                          const Divider(),
+                          _createDrawerItem(
+                            icon: Icons.bug_report,
+                            text: 'Report an issue',
+                          ),
+                          ListTile(
+                            title: Text(
+                                'Ver: ${_packageInfo.version} / ${_packageInfo.buildNumber}'),
+                          ),
+                        ],
+                      ),
+                    ),
+                    bottomNavigationBar: BottomNavigationBar(
+                      type: BottomNavigationBarType.fixed,
+                      currentIndex: selectedIndex,
+                      // showUnselectedLabels: false,
+                      selectedItemColor: AppThemesColors.error,
+
+                      selectedIconTheme: const IconThemeData(
+                          // color: AppThemesColors.laPalma,
+                          opacity: 1.0,
+                          size: 32),
+                      unselectedIconTheme: const IconThemeData(
+                          // color: Colors.black45,
+                          opacity: 0.5,
+                          size: 24),
+
+                      items: const [
+                        BottomNavigationBarItem(
+                          icon: Icon(Icons.wb_iridescent_outlined),
+                          label: "VLAN",
+                        ),
+                        // BottomNavigationBarItem(
+                        //   icon: Icon(Icons.alt_route_outlined),
+                        //   label: "IP Networks",
+                        // ),
+                        BottomNavigationBarItem(
+                          icon: Icon(Icons.history_edu_outlined),
+                          label: "History request",
+                        )
+                      ],
+                      onTap: (int index) {
+                        onTapHandler(index);
+                      },
+                    ),
+                    body: getBody(),
+                  ),
+          );
+        },
+      );
+
   @override
   Widget build(BuildContext context) => SafeArea(
       child: Scaffold(
@@ -32,14 +218,6 @@ class _ObjectUiState extends State<ObjectUi> {
                 onPressed: () {
                   Get.back();
                 }),
-            // actions: <Widget>[
-            //   IconButton(
-            //       icon: Icon(Icons.info_outlined),
-            //       onPressed: () => {
-            //         print("Click on settings button")
-            //       }
-            //   ),
-            // ],
             title: Text('object.title'.tr + ' : ' + result),
           ),
           body: Stack(alignment: Alignment.center, children: <Widget>[
@@ -53,7 +231,7 @@ class _ObjectUiState extends State<ObjectUi> {
 
   Widget objectImage(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
               topLeft: Radius.zero,
@@ -73,7 +251,7 @@ class _ObjectUiState extends State<ObjectUi> {
     return Container(
         width: MediaQuery.of(context).size.width,
         height: 360,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.zero,
@@ -87,7 +265,7 @@ class _ObjectUiState extends State<ObjectUi> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 4,
               ),
               Row(
@@ -102,7 +280,7 @@ class _ObjectUiState extends State<ObjectUi> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 4,
               ),
               Row(
@@ -310,7 +488,10 @@ class _ObjectUiState extends State<ObjectUi> {
                           ),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        var data = {"result": '${result}'};
+                        Get.offNamed('/timeline', parameters: data);
+                      },
                       child: Row(children: [
                         Icon(Icons.history_edu_outlined),
                         Text("object.title.timeline".tr)

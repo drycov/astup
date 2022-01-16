@@ -252,14 +252,14 @@ class _HomeUIState extends State<HomeUI> {
                           icon: Icon(Icons.wb_iridescent_outlined),
                           label: "VLAN",
                         ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.alt_route_outlined),
-                          label: "IP Networks",
-                        ),
                         // BottomNavigationBarItem(
-                        //   icon: Icon(Icons.history_edu_outlined),
-                        //   label: "History request",
-                        // )
+                        //   icon: Icon(Icons.alt_route_outlined),
+                        //   label: "IP Networks",
+                        // ),
+                        BottomNavigationBarItem(
+                          icon: Icon(Icons.history_edu_outlined),
+                          label: "History request",
+                        )
                       ],
                       onTap: (int index) {
                         onTapHandler(index);

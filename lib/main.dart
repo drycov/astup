@@ -29,6 +29,7 @@ Future<void> init() async {
   Get.put<LanguageController>(LanguageController());
   Get.put<LocationController>(LocationController());
   Get.put<VlanController>(VlanController());
+  Get.put<ObjectController>(ObjectController("0000"));
 }
 
 class MyApp extends StatelessWidget {

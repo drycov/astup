@@ -8,7 +8,7 @@
     <item
         android:width="144dp"
         android:height="144dp"
-        android:gravity="center">
+        android:gravity="fill">
         <bitmap
             android:gravity="fill"
             android:mipMap="true"
