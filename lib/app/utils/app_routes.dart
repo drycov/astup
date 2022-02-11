@@ -1,3 +1,4 @@
+import 'package:astup/app/ui/extended_ui/about_ui.dart';
 import 'package:astup/app/ui/index_ui.dart';
 import 'package:astup/app/ui/messages/chat_ui.dart';
 import 'package:astup/app/ui/ui_auth/ui_auth.dart';
@@ -19,6 +20,7 @@ class AppRoutes {
     GetPage(name: '/object', page: () => const ObjectUi()),
     GetPage(name: '/report', page: () => const ChatScreen()),
     GetPage(name: '/timeline', page: () => const TimelineUI()),
+    GetPage(name: '/about', page: () => const AboutUI()),
     // GetPage(name: '/chat', page: () => const ChatsScreen()),
   ];
 }

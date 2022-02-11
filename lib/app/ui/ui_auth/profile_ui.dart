@@ -69,17 +69,17 @@ class _ProfileUIState extends State<ProfileUI> {
                     }),
               ),
               body: StreamBuilder(
-                  // stream: locations.orderBy(locId).snapshots(),
+                // stream: locations.orderBy(locId).snapshots(),
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return const Text('Something went wrong');
-                }
+                    if (snapshot.hasError) {
+                      return const Text('Something went wrong');
+                    }
 
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Text("Loading");
-                }
-                return _buildLayoutSection(context, snapshot, data);
-              }));
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Text("Loading");
+                    }
+                    return _buildLayoutSection(context, snapshot, data);
+                  }));
         }
         // return const Text("loading");
         return Scaffold(
@@ -106,14 +106,13 @@ class _ProfileUIState extends State<ProfileUI> {
                   }
                   // return _buildLayoutSection(context, snapshot, data);
                   return const Center(child: CircularProgressIndicator());
-
                 }));
       },
     );
   }
 
-  Widget _buildLayoutSection(
-      BuildContext context, snapshot, Map<String, dynamic> data) {
+  Widget _buildLayoutSection(BuildContext context, snapshot,
+      Map<String, dynamic> data) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -137,7 +136,10 @@ class _ProfileUIState extends State<ProfileUI> {
                           borderRadius: BorderRadius.circular(100),
                           border: Border.all(
                             width: 2,
-                            color: Theme.of(context).colorScheme.primary,
+                            color: Theme
+                                .of(context)
+                                .colorScheme
+                                .primary,
                           )),
                       child: CircleAvatar(
                         radius: 42,

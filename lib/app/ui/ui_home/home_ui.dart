@@ -108,7 +108,9 @@ class _HomeUIState extends State<HomeUI> {
                             _createDrawerItem(
                               icon: Icons.question_answer_outlined,
                               text: 'Messages',
-                              onTap: () {Get.toNamed('/chat');},
+                              onTap: () {
+                                Get.toNamed('/chat');
+                              },
                             ),
                             const Divider(),
                             _createDrawerItem(
@@ -125,7 +127,9 @@ class _HomeUIState extends State<HomeUI> {
                             _createDrawerItem(
                               icon: Icons.pest_control_outlined,
                               text: 'Report an issue',
-                              onTap: () {Get.toNamed('/report');},
+                              onTap: () {
+                                Get.toNamed('/report');
+                              },
                             ),
                             const Divider(),
                             ListTile(

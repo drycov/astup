@@ -1,7 +1,34 @@
-import 'package:astup/app/controllers/controllers.dart';
+import 'package:astup/app/models/index.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+final objectRef = FirebaseFirestore.instance
+    .collection('objects')
+    .withConverter<ObjectModel>(
+      fromFirestore: (snapshots, _) => ObjectModel.fromJson(snapshots.data()!),
+      toFirestore: (object, _) => object.toJson(),
+    );
+
+enum ObjectQuery {
+  location,
+  result,
+}
+//
+extension on Query<ObjectModel> {
+  /// Create a firebase query from a [MovieQuery]
+  Query<ObjectModel> queryBy(ObjectQuery query) {
+    switch (query) {
+      case ObjectQuery.location:
+        return where('genre', arrayContainsAny: ['Sci-Fi']);
+      case ObjectQuery.result:
+        return orderBy('id', descending: query == ObjectQuery.result);
+        // return orderBy('id', descending: query == '3650000165');
+    }
+  }
+}
 
 class ObjectUi extends StatefulWidget {
   const ObjectUi({Key? key}) : super(key: key);
@@ -15,200 +42,30 @@ class _ObjectUiState extends State<ObjectUi> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     String? _result = Get.parameters['result'];
     result = _result!;
   }
 
-  Widget build(BuildContext context) => FutureBuilder<DocumentSnapshot>(
-        future:
-            FirebaseFirestore.instance.collection('/objects').doc(result).get(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return const Text("Something went wrong");
-          }
-
-          if (snapshot.hasData && !snapshot.data!.exists) {
-            return const Text("Document does not exist");
-          }
-
-          if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
-            return GetBuilder<ObjectController>(
-              init: ObjectController(),
-              builder: (controller) => result == null
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : Scaffold(
-                      appBar: AppBar(
-                        actionsIconTheme: const IconThemeData(),
-                        title: Text('home.title'.tr),
-                        actions: [
-                          IconButton(
-                              icon: const Icon(Icons.qr_code_scanner_outlined),
-                              onPressed: () {
-                                Get.toNamed('/qrview');
-                              }),
-                          IconButton(
-                              icon: const Icon(Icons.settings),
-                              onPressed: () {
-                                Get.to(const SettingsUI());
-                              }),
-                        ],
-                      ),
-                      drawer: Drawer(
-                        child: ListView(
-                          padding: EdgeInsets.zero,
-                          children: <Widget>[
-                            _createHeader(data),
-                            _createDrawerItem(
-                              icon: Icons.description_outlined,
-                              text: 'Tasks',
-                              onTap: () {},
-                            ),
-                            _createDrawerItem(
-                              icon: Icons.question_answer_outlined,
-                              text: 'Messages',
-                              onTap: () {
-                                Get.toNamed('/chat');
-                              },
-                            ),
-                            const Divider(),
-                            _createDrawerItem(
-                              icon: Icons.storage_outlined,
-                              text: 'My objects',
-                              onTap: () {},
-                            ),
-                            _createDrawerItem(
-                              icon: Icons.settings_input_component_outlined,
-                              text: 'Fiber revision',
-                              onTap: () {},
-                            ),
-                            const Divider(),
-                            _createDrawerItem(
-                              icon: Icons.pest_control_outlined,
-                              text: 'Report an issue',
-                              onTap: () {
-                                Get.toNamed('/report');
-                              },
-                            ),
-                            const Divider(),
-                            ListTile(
-                              title: Text(
-                                  'Ver: ${_packageInfo.version} / ${_packageInfo.buildNumber}'),
-                            ),
-                          ],
-                        ),
-                      ),
-                      body: getBody(),
-                    ),
-            );
-          }
-          return GetBuilder<AuthController>(
-            init: AuthController(),
-            builder: (controller) => controller.firestoreUser.value!.uid == null
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Scaffold(
-                    appBar: AppBar(
-                      actionsIconTheme: const IconThemeData(),
-                      title: Text('home.title'.tr),
-                      actions: [
-                        IconButton(
-                            icon: const Icon(Icons.qr_code_scanner_outlined),
-                            onPressed: () {
-                              Get.toNamed('/qrview');
-                            }),
-                        IconButton(
-                            icon: const Icon(Icons.settings),
-                            onPressed: () {
-                              Get.to(const SettingsUI());
-                            }),
-                      ],
-                    ),
-                    drawer: Drawer(
-                      child: ListView(
-                        padding: EdgeInsets.zero,
-                        children: <Widget>[
-                          // _createHeader(data),
-                          CircularProgressIndicator(),
-                          // _createDrawerItem(
-                          //   icon: Icons.contacts,
-                          //   text: 'Contacts',
-                          //   onTap: () {},
-                          // ),
-                          _createDrawerItem(
-                            icon: Icons.event,
-                            text: 'Events',
-                          ),
-                          _createDrawerItem(
-                            icon: Icons.note,
-                            text: 'Notes',
-                          ),
-                          const Divider(),
-                          _createDrawerItem(
-                            icon: Icons.stars,
-                            text: 'Useful Links',
-                          ),
-                          const Divider(),
-                          _createDrawerItem(
-                            icon: Icons.bug_report,
-                            text: 'Report an issue',
-                          ),
-                          ListTile(
-                            title: Text(
-                                'Ver: ${_packageInfo.version} / ${_packageInfo.buildNumber}'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    bottomNavigationBar: BottomNavigationBar(
-                      type: BottomNavigationBarType.fixed,
-                      currentIndex: selectedIndex,
-                      // showUnselectedLabels: false,
-                      selectedItemColor: AppThemesColors.error,
-
-                      selectedIconTheme: const IconThemeData(
-                          // color: AppThemesColors.laPalma,
-                          opacity: 1.0,
-                          size: 32),
-                      unselectedIconTheme: const IconThemeData(
-                          // color: Colors.black45,
-                          opacity: 0.5,
-                          size: 24),
-
-                      items: const [
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.wb_iridescent_outlined),
-                          label: "VLAN",
-                        ),
-                        // BottomNavigationBarItem(
-                        //   icon: Icon(Icons.alt_route_outlined),
-                        //   label: "IP Networks",
-                        // ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.history_edu_outlined),
-                          label: "History request",
-                        )
-                      ],
-                      onTap: (int index) {
-                        onTapHandler(index);
-                      },
-                    ),
-                    body: getBody(),
-                  ),
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot<ObjectModel>>(
+      // stream: objectRef.snapshots(),
+      stream: objectRef.queryBy(ObjectQuery.result).snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Text(snapshot.error.toString()),
           );
-        },
-      );
+        }
 
-  @override
-  Widget build(BuildContext context) => SafeArea(
-      child: Scaffold(
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        final data = snapshot.requireData;
+
+        return SafeArea(
+            child: Scaffold(
           appBar: AppBar(
             actionsIconTheme: const IconThemeData(
               color: Colors.white,
@@ -220,16 +77,30 @@ class _ObjectUiState extends State<ObjectUi> {
                 }),
             title: Text('object.title'.tr + ' : ' + result),
           ),
-          body: Stack(alignment: Alignment.center, children: <Widget>[
-            Positioned(top: 0, left: 6, right: 6, child: objectImage(context)),
-            Positioned(
-                bottom: 0,
-                left: 6,
-                right: 6,
-                child: objectDescription(context)),
-          ])));
+          body: ListView.builder(
+            itemCount: data.size,
+            itemBuilder: (context, index) {
+              return _ObjectItem(data.docs[index].data(),
+                  data.docs[index].reference, context, result);
+            },
+          ),
+        ));
+      },
+    );
+  }
+}
 
-  Widget objectImage(BuildContext context) {
+/// A single movie row.
+class _ObjectItem extends StatelessWidget {
+  _ObjectItem(this.movie, this.reference, this.context, this.result);
+
+  final ObjectModel movie;
+  final DocumentReference<ObjectModel> reference;
+  final BuildContext context;
+  final String result;
+
+  /// Returns the movie poster.
+  Widget get objectImage {
     return Container(
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -247,9 +118,9 @@ class _ObjectUiState extends State<ObjectUi> {
     );
   }
 
-  Widget objectDescription(BuildContext context) {
+  Widget get objectDescription {
     return Container(
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery.of(this.context).size.width,
         height: 360,
         decoration: const BoxDecoration(
             color: Colors.white,
@@ -274,7 +145,7 @@ class _ObjectUiState extends State<ObjectUi> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    result,
+                    '${movie.id}',
                     style: TextStyle(fontSize: 18, color: Colors.black),
                     textDirection: TextDirection.ltr,
                   ),
@@ -293,7 +164,7 @@ class _ObjectUiState extends State<ObjectUi> {
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                   Text(
-                    '22O34F50000450',
+                    '${movie.serialID}',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                     textDirection: TextDirection.ltr,
                   ),
@@ -354,7 +225,7 @@ class _ObjectUiState extends State<ObjectUi> {
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                   Text(
-                    '10.145.3.103',
+                    '${movie.ip}',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ],
@@ -369,7 +240,7 @@ class _ObjectUiState extends State<ObjectUi> {
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                   Text(
-                    'Network switch',
+                    '${movie.type}',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ],
@@ -399,7 +270,7 @@ class _ObjectUiState extends State<ObjectUi> {
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                   Text(
-                    'SNP250_Akimat',
+                    '${movie.sysName}',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ],
@@ -429,7 +300,7 @@ class _ObjectUiState extends State<ObjectUi> {
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                   Text(
-                    'ВКО, ',
+                    '${movie.addressPos}',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ],
@@ -504,5 +375,12 @@ class _ObjectUiState extends State<ObjectUi> {
           ),
         ));
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(alignment: Alignment.center, children: <Widget>[
+      Positioned(top: 0, left: 6, right: 6, child: objectImage),
+      Positioned(bottom: 0, left: 6, right: 6, child: objectDescription)
+    ]);
+  }
 }
-// bodyObject(result, context)

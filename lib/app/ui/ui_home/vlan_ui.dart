@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
+
 
 class VlanUI extends StatefulWidget {
   const VlanUI({Key? key}) : super(key: key);
@@ -12,7 +14,26 @@ class _VlanUIState extends State<VlanUI> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Center(child: CircularProgressIndicator()),
+      body: Column(
+        children: [
+          BreadCrumb(
+            items: <BreadCrumbItem>[
+              BreadCrumbItem(content: Text('Item1')),
+              BreadCrumbItem(content: Text('Item2')),
+              //add your BreadCrumbItem here
+            ],
+            divider: Icon(Icons.chevron_right),
+            overflow: ScrollableOverflow(
+              keepLastDivider: false,
+              reverse: false,
+              direction: Axis.horizontal,
+            ),
+          ),
+          Center(child: CircularProgressIndicator()),
+        ],
+
+    )
+
     );
   }
 }
