@@ -35,9 +35,9 @@ class _AboutUIState extends State<AboutUI> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isIos = theme.platform == TargetPlatform.iOS ||
-        theme.platform == TargetPlatform.macOS;
+    // final theme = Theme.of(context);
+    // final isIos = theme.platform == TargetPlatform.iOS ||
+    //     theme.platform == TargetPlatform.macOS;
     return AboutPage(
       values: {
         'version': _packageInfo.version,
@@ -60,7 +60,7 @@ class _AboutUIState extends State<AboutUI> {
           icon: Icon(Icons.all_inclusive),
         ),
         MarkdownPageListTile(
-          filename: 'md/CHANGELOG.md',
+          filename: 'md/CHANDELOG.md',
           title: Text('View Changelog'),
           icon: Icon(Icons.view_list),
         ),
@@ -103,7 +103,7 @@ class _AboutUIState extends State<AboutUI> {
 //           icon: Icon(Icons.all_inclusive),
 //         ),
 //         MarkdownPageListTile(
-//           filename: 'CHANGELOG.md',
+//           filename: 'CHANDELOG.md',
 //           title: Text('View Changelog'),
 //           icon: Icon(Icons.view_list),
 //         ),

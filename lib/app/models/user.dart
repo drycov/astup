@@ -14,16 +14,16 @@ class UserModel {
       devID;
 
   UserModel(
-      { required this.uid,
-       required this.email,
-       required this.name,
-       required this.cn,
-       required this.post,
-       required this.firstName,
-       required this.middleName,
-       required this.lastName,
+      {required this.uid,
+      required this.email,
+      required this.name,
+      required this.cn,
+      required this.post,
+      required this.firstName,
+      required this.middleName,
+      required this.lastName,
       required this.fileName,
-       required this.photoUrl,
+      required this.photoUrl,
       required this.devID});
 
   factory UserModel.fromMap(Map data) {

@@ -10,15 +10,10 @@ class NotificationApi {
 
   static Future _notificationDetails() async {
     return const NotificationDetails(
-        android: AndroidNotificationDetails(
-            'channel id',
-            'channel name',
+        android: AndroidNotificationDetails('channel id', 'channel name',
             channelDescription: 'channel description',
-            importance: Importance.max
-        ),
-        iOS: IOSNotificationDetails()
-
-    );
+            importance: Importance.max),
+        iOS: IOSNotificationDetails());
   }
 
   static Future init({bool initSheduled = false}) async {
@@ -27,17 +22,15 @@ class NotificationApi {
     const settings = InitializationSettings(android: android, iOS: IOs);
     await _notifications.initialize(settings,
         onSelectNotification: (payload) async {
-          onNotifications.add(payload);
-        });
+      onNotifications.add(payload);
+    });
   }
 
   static Future showNotification({
     int id = 0,
-
     String? title,
     String? body,
     String? payload,
-
   }) async =>
       _notifications.show(id, title, body, await _notificationDetails(),
           payload: payload);
@@ -50,14 +43,13 @@ class NotificationApi {
     required DateTime sheduledDate,
   }) async =>
       _notifications.zonedSchedule(
-        id,
-        title,
-        body,
-        tz.TZDateTime.from(sheduledDate,tz.local),
-        await _notificationDetails(),
-        payload: payload,
-        androidAllowWhileIdle: true,
-        uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime
-      );
+          id,
+          title,
+          body,
+          tz.TZDateTime.from(sheduledDate, tz.local),
+          await _notificationDetails(),
+          payload: payload,
+          androidAllowWhileIdle: true,
+          uiLocalNotificationDateInterpretation:
+              UILocalNotificationDateInterpretation.absoluteTime);
 }

@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-
 class ResetPasswordUI extends StatelessWidget {
   final AuthController authController = AuthController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   ResetPasswordUI({Key? key}) : super(key: key);
 
   @override
@@ -28,7 +28,9 @@ class ResetPasswordUI extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  LogoGraphicHeader(avatar: '',),
+                  LogoGraphicHeader(
+                    avatar: '',
+                  ),
                   const SizedBox(height: 48.0),
                   FormInputFieldWithIcon(
                     controller: authController.emailController,
@@ -38,7 +40,7 @@ class ResetPasswordUI extends StatelessWidget {
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) => null,
                     onSaved: (value) =>
-                    authController.emailController.text = value as String,
+                        authController.emailController.text = value as String,
                   ),
                   const FormVerticalSpace(),
                   PrimaryButton(

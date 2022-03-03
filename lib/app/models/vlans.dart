@@ -1,11 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'dart:convert';
 
 @immutable
 class VlanModel {
-  final String?
-      id,
+  final String? id,
       station,
       ipInterface,
       description,
@@ -15,17 +12,16 @@ class VlanModel {
       vlanMemoAuthor,
       vlanType;
 
-  const VlanModel({
-    this.id,
-    this.name,
-    this.vlanType,
-    this.description,
-    this.ipInterface,
-    this.station,
-    this.vlanMemo,
-    this.creationDate,
-    this.vlanMemoAuthor
-  });
+  const VlanModel(
+      {this.id,
+      this.name,
+      this.vlanType,
+      this.description,
+      this.ipInterface,
+      this.station,
+      this.vlanMemo,
+      this.creationDate,
+      this.vlanMemoAuthor});
 
   factory VlanModel.fromMap(Map data) {
     return VlanModel(
@@ -40,8 +36,8 @@ class VlanModel {
       vlanMemoAuthor: data['vlanMemoAuthor'] ?? '',
     );
   }
-  Map<String, dynamic> toJson() =>
-      {
+
+  Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "vlanType": vlanType,
@@ -53,8 +49,7 @@ class VlanModel {
         "vlanMemoAuthor": vlanMemoAuthor,
       };
 
-  static VlanModel fromJson(Map<String, dynamic> json) =>
-      VlanModel(
+  static VlanModel fromJson(Map<String, dynamic> json) => VlanModel(
         id: json['id'],
         name: json['name'],
         vlanType: json['vlanType'],

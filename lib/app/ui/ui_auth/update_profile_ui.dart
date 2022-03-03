@@ -10,10 +10,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 
-
 class UpdateProfileUI extends StatelessWidget {
   final AuthController authController = AuthController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   // String? deviceId = await PlatformDeviceId.getDeviceId;
 
   Future<String?> getUid() async {
@@ -31,7 +31,8 @@ class UpdateProfileUI extends StatelessWidget {
         authController.firestoreUser.value!.name.toString();
     authController.emailController.text =
         authController.firestoreUser.value!.email.toString();
-    authController.cnController.text = authController.firestoreUser.value!.cn.toString();
+    authController.cnController.text =
+        authController.firestoreUser.value!.cn.toString();
     authController.postController.text =
         authController.firestoreUser.value!.post.toString();
     authController.firstNameController.text =
@@ -84,7 +85,7 @@ class UpdateProfileUI extends StatelessWidget {
                     validator: Validator().name,
                     onChanged: (value) => null,
                     onSaved: (value) =>
-                    authController.middleNameController.text = value!,
+                        authController.middleNameController.text = value!,
                   ),
                   const FormVerticalSpace(),
                   FormInputFieldWithIcon(
@@ -157,9 +158,13 @@ class UpdateProfileUI extends StatelessWidget {
                               lastName: authController.lastNameController.text,
                               firstName:
                                   authController.firstNameController.text,
-                              devID:uDevID, fileName: '');
-                          _updateUserConfirm(context, _updatedUser,
-                              authController.firestoreUser.value!.email.toString());
+                              devID: uDevID,
+                              fileName: '');
+                          _updateUserConfirm(
+                              context,
+                              _updatedUser,
+                              authController.firestoreUser.value!.email
+                                  .toString());
                         }
                       }),
                   const FormVerticalSpace(),

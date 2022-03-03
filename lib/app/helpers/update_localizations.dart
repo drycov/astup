@@ -16,8 +16,7 @@ Future updateLocalizationFile() async {
 
   String _phraseKey = '';
   List<LocalizationModel> _localizations = [];
-  String _localizationFile =
-      """import 'package:get/get.dart';
+  String _localizationFile = """import 'package:get/get.dart';
 
 class Localization extends Translations {
   @override
@@ -163,6 +162,7 @@ class PhraseModel {
       phrase: data['phrase'] ?? '',
     );
   }
+
   Map<String, dynamic> toJson() => {
         "key": key,
         "phrase": phrase,

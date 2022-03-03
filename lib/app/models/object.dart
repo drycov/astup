@@ -10,18 +10,15 @@ class ObjectModel {
       type,
       vlanMapID;
 
-
-
-
   ObjectModel(
-      { required this.addressPos,
-        required this.description,
-        required this.id,
-        required this.ip,
-        required this.serialID,
-        required this.sysName,
-        required this.type,
-        required this.vlanMapID});
+      {required this.addressPos,
+      required this.description,
+      required this.id,
+      required this.ip,
+      required this.serialID,
+      required this.sysName,
+      required this.type,
+      required this.vlanMapID});
 
   factory ObjectModel.fromMap(Map data) {
     return ObjectModel(
@@ -46,26 +43,26 @@ class ObjectModel {
   //     vlanMapID;
 
   Map<String, dynamic> toJson() => {
-    "addressPos": addressPos,
-    "description": description,
-    "id": id,
-    "ip": ip,
-    "serialID": serialID,
-    "sysName": sysName,
-    "type": type,
-    "vlanMapID": vlanMapID
-  };
+        "addressPos": addressPos,
+        "description": description,
+        "id": id,
+        "ip": ip,
+        "serialID": serialID,
+        "sysName": sysName,
+        "type": type,
+        "vlanMapID": vlanMapID
+      };
 
   static ObjectModel fromJson(Map<String, dynamic> json) => ObjectModel(
-    addressPos: json['addressPos'],
-    description: json['description'],
-    id: json['id'],
-    ip: json['ip'],
-    serialID: json['serialID'],
-    sysName: json['sysName'],
-    type: json['type'],
-    vlanMapID: json['vlanMapID'],
-  );
+        addressPos: json['addressPos'],
+        description: json['description'],
+        id: json['id'],
+        ip: json['ip'],
+        serialID: json['serialID'],
+        sysName: json['sysName'],
+        type: json['type'],
+        vlanMapID: json['vlanMapID'],
+      );
 
   ObjectModel copy({
     String? addressPos,

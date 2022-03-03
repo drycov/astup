@@ -10,7 +10,6 @@ class IPUI extends StatefulWidget {
 class _IPUIState extends State<IPUI> {
   @override
   Widget build(BuildContext context) => const Scaffold(
-    body: Center(
-        child: CircularProgressIndicator()),
-  );
+        body: Center(child: CircularProgressIndicator()),
+      );
 }

@@ -4,7 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-const double buttonSize = 60 ;
+const double buttonSize = 60;
 
 class CircularFabWidget extends StatefulWidget {
   const CircularFabWidget({Key? key}) : super(key: key);
@@ -69,8 +69,8 @@ class FlowMenuDelegate extends FlowDelegate {
   @override
   void paintChildren(FlowPaintingContext context) {
     final size = context.size;
-    final xStart = size.width -buttonSize;
-    final yStart = size.height -buttonSize;
+    final xStart = size.width - buttonSize;
+    final yStart = size.height - buttonSize;
     final n = context.childCount;
     for (int i = 0; i < n; i++) {
       final isLastItem = i == context.childCount - 1;

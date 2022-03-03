@@ -13,15 +13,17 @@ FormInputField(
 */
 
 class FormInputField extends StatelessWidget {
-   const FormInputField(
-      {Key? key, required this.controller,
+  const FormInputField(
+      {Key? key,
+      required this.controller,
       required this.labelText,
       required this.validator,
       this.keyboardType = TextInputType.text,
       this.obscureText = false,
       this.minLines = 1,
       required this.onChanged,
-      required this.onSaved}) : super(key: key);
+      required this.onSaved})
+      : super(key: key);
 
   final TextEditingController controller;
   final String labelText;
@@ -51,7 +53,8 @@ class FormInputField extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
         ),
         filled: true,
-        fillColor: Colors.black45, //Palette.inputFillColor,
+        fillColor: Colors.black45,
+        //Palette.inputFillColor,
         labelText: labelText,
       ),
       controller: controller,

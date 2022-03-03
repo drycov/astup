@@ -11,6 +11,7 @@ class LocationController extends GetxController {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final AuthController authController = AuthController.to;
   Rxn<LocationModel> muserLocation = Rxn<LocationModel>();
+
   Stream<LocationModel> streamLocation() {
     Globals.printMet('streamFirestoreUser()');
     return _db
@@ -20,7 +21,10 @@ class LocationController extends GetxController {
   }
 
   Future<LocationModel> getUserLocation() {
-    return _db.doc('/locations/${authController.firestoreUser.value!.cn.toString()}').get().then(
-            (documentSnapshot) => LocationModel.fromMap(documentSnapshot.data()!));
+    return _db
+        .doc('/locations/${authController.firestoreUser.value!.cn.toString()}')
+        .get()
+        .then((documentSnapshot) =>
+            LocationModel.fromMap(documentSnapshot.data()!));
   }
 }

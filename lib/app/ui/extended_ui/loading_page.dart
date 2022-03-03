@@ -13,7 +13,10 @@ class LoadingScreen extends StatelessWidget {
       body: Container(
         color: Colors.green,
         child: Center(
-          child: Loading( indicator:BallPulseIndicator(), size: 100.0, color: Colors.white),
+          child: Loading(
+              indicator: BallPulseIndicator(),
+              size: 100.0,
+              color: Colors.white),
         ),
       ),
     );

@@ -8,11 +8,11 @@ class CircleButton extends StatelessWidget {
 
   const CircleButton(
       {Key? key,
-        required this.onTap,
-        required this.backColor,
-        required this.iconColor,
-        required this.iconData,
-        required this.iconSize})
+      required this.onTap,
+      required this.backColor,
+      required this.iconColor,
+      required this.iconData,
+      required this.iconSize})
       : super(key: key);
 
   @override

@@ -88,18 +88,21 @@ class TutorialOverlay extends ModalRoute<void> {
                 'Camera \n control buttons',
                 style: TextStyle(fontSize: 14),
               )),
-          Positioned(top: 16, right: 18, child: Container(
-            width: 150,
-            height: 50,
-            decoration: BoxDecoration(
-              // color: const Color(0xff7c94b6),
-              border: Border.all(
-                color: Colors.white,
-                width: 2,
-              ),
-              borderRadius: BorderRadius.circular(12),
-            ),
-          )),
+          Positioned(
+              top: 16,
+              right: 18,
+              child: Container(
+                width: 150,
+                height: 50,
+                decoration: BoxDecoration(
+                  // color: const Color(0xff7c94b6),
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              )),
           const Positioned(
               top: 80,
               right: 18,
@@ -107,10 +110,12 @@ class TutorialOverlay extends ModalRoute<void> {
                 'Additional functionality buttons',
                 style: TextStyle(fontSize: 14),
               )),
-          Positioned(child: ElevatedButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK. I reading'),
-          ),)
+          Positioned(
+            child: ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK. I reading'),
+            ),
+          )
         ],
       ),
     );

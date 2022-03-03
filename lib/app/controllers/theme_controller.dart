@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-
 class ThemeController extends GetxController {
   static ThemeController get to => Get.find();
   final theme = "system".obs;
@@ -10,6 +9,7 @@ class ThemeController extends GetxController {
   late ThemeMode _themeMode;
 
   ThemeMode get themeMode => _themeMode;
+
   String get currentTheme => theme.value;
 
   Future<void> setThemeMode(String value) async {

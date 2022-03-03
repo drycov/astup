@@ -69,7 +69,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: TextField(
                       focusNode: _focus,
                       minLines: 1,
-                      maxLines:10,
+                      maxLines: 10,
                       maxLength: 500,
                       style: const TextStyle(color: AppThemesColors.white),
                       onChanged: (str) {
@@ -78,27 +78,33 @@ class _ChatScreenState extends State<ChatScreen> {
                       controller: messageTextEditingController,
                       cursorColor: AppThemesColors.white,
                       cursorHeight: 24,
-                      inputFormatters: [ LengthLimitingTextInputFormatter(500),],
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(500),
+                      ],
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
-                            borderSide: BorderSide(color: AppThemesColors.white, width: 1),
+                            borderSide: BorderSide(
+                                color: AppThemesColors.white, width: 1),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
-                            borderSide: BorderSide(color: AppThemesColors.white, width: 1),
+                            borderSide: BorderSide(
+                                color: AppThemesColors.white, width: 1),
                           ),
                           disabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
-                            borderSide: BorderSide(color: AppThemesColors.white, width: 1),
+                            borderSide: BorderSide(
+                                color: AppThemesColors.white, width: 1),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
-                            borderSide: BorderSide(color: AppThemesColors.white, width: 1),
+                            borderSide: BorderSide(
+                                color: AppThemesColors.white, width: 1),
                           ),
                           filled: true,
-                          labelStyle: TextStyle(color:AppThemesColors.white),
-                          fillColor:   AppThemesColors.dimGray,
+                          labelStyle: TextStyle(color: AppThemesColors.white),
+                          fillColor: AppThemesColors.dimGray,
                           hintText: 'say something...',
                           hintStyle: TextStyle(
                             color: AppThemesColors.white,
@@ -137,10 +143,10 @@ class _ChatScreenState extends State<ChatScreen> {
                           });
                         },
                         icon: const Icon(Icons.send_rounded),
-                        color:  AppThemesColors.white,
+                        color: AppThemesColors.white,
                         iconSize: 30,
                       ),
-                      backgroundColor:   AppThemesColors.dimGray,
+                      backgroundColor: AppThemesColors.dimGray,
                       radius: 25,
                     ))
               ],

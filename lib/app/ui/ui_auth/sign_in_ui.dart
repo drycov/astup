@@ -10,7 +10,6 @@ import 'package:flutter/services.dart';
 import 'dart:core';
 import 'package:get/get.dart';
 
-
 class SignInUI extends StatelessWidget {
   final AuthController authController = AuthController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -30,7 +29,9 @@ class SignInUI extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  LogoGraphicHeader(avatar: '',),
+                  LogoGraphicHeader(
+                    avatar: '',
+                  ),
                   const SizedBox(height: 48.0),
                   FormInputFieldWithIcon(
                     controller: authController.emailController,
@@ -40,7 +41,7 @@ class SignInUI extends StatelessWidget {
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) => null,
                     onSaved: (value) =>
-                    authController.emailController.text = value!,
+                        authController.emailController.text = value!,
                   ),
                   const FormVerticalSpace(),
                   FormInputFieldWithIcon(
@@ -51,7 +52,7 @@ class SignInUI extends StatelessWidget {
                     obscureText: true,
                     onChanged: (value) => null,
                     onSaved: (value) =>
-                    authController.passwordController.text = value!,
+                        authController.passwordController.text = value!,
                     maxLines: 1,
                   ),
                   const FormVerticalSpace(),

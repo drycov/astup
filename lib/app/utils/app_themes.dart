@@ -23,6 +23,7 @@ class AppThemes {
 
   static String font1 = "ProductSans";
   static String font2 = "Roboto";
+
   //constants color range for light theme
   //main color
   static const Color _lightPrimaryColor = AppThemesColors.green;
@@ -173,7 +174,8 @@ class AppThemes {
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     //primarySwatch: _darkPrimaryColor, //cant be Color on MaterialColor so it can compute different shades.
-    accentColor: _darkPrimaryColor, //prefix icon color form input on focus
+    accentColor: _darkPrimaryColor,
+    //prefix icon color form input on focus
 
     fontFamily: font1,
     scaffoldBackgroundColor: _darkBackgroundColor,

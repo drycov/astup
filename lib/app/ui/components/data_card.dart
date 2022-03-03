@@ -1,4 +1,3 @@
-import 'package:astup/app/models/index.dart';
 import 'package:astup/app/res/index.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +9,7 @@ class DataCard extends StatelessWidget {
       // required this.delete,
       required this.index})
       : super(key: key);
+
   // final DataModel data;
 
   // final Function edit;

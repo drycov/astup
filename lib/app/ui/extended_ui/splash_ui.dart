@@ -10,7 +10,6 @@ class SplashUI extends StatefulWidget {
 class _SplashUIState extends State<SplashUI> {
   @override
   Widget build(BuildContext context) => const Scaffold(
-        body: Center(
-            child: CircularProgressIndicator()),
+        body: Center(child: CircularProgressIndicator()),
       );
 }

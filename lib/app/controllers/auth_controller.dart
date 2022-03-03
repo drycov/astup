@@ -129,7 +129,12 @@ class AuthController extends GetxController {
             name: nameController.text,
             photoUrl: gravatarUrl,
             post: '',
-            middleName: '', fileName: '', devID: '', lastName: '', firstName: '', cn: '');
+            middleName: '',
+            fileName: '',
+            devID: '',
+            lastName: '',
+            firstName: '',
+            cn: '');
         //create the user in firestore
         _createUserFirestore(_newUser, result.user!);
         emailController.clear();

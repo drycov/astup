@@ -1,6 +1,5 @@
 import 'package:astup/app/models/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,6 +15,7 @@ enum ObjectQuery {
   location,
   result,
 }
+
 //
 extension on Query<ObjectModel> {
   /// Create a firebase query from a [MovieQuery]
@@ -25,7 +25,7 @@ extension on Query<ObjectModel> {
         return where('genre', arrayContainsAny: ['Sci-Fi']);
       case ObjectQuery.result:
         return orderBy('id', descending: query == ObjectQuery.result);
-        // return orderBy('id', descending: query == '3650000165');
+      // return orderBy('id', descending: query == '3650000165');
     }
   }
 }

@@ -27,8 +27,8 @@ class Globals {
   static void printMet(dynamic msg) {
     print('debug: $msg');
   }
-
 }
+
 class IpUtil {
   static bool verifyIp(final String ip) {
     // check correct structure
